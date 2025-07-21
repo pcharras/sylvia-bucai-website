@@ -1,0 +1,97 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Rule: Advanced Code Workflow with Review and Documentation
+
+Este conjunto de directivas guía a la IA para facilitar un flujo de trabajo de revisión y documentación de cambios en el código, incorporando un análisis contextual profundo.
+
+---
+
+## 0. Contexto Previo: Leer `changelog.md` y `project_context.md`
+
+**Directiva Fundamental:**
+**Antes de analizar cualquier solicitud de modificación o generación de código, la IA DEBE leer y comprender el contenido de los archivos `changelog.md` (o `CHANGELOG.md`) y `project_context.md` que se encuentran en el directorio raíz del proyecto.**
+
+El objetivo de esta lectura es:
+* **`changelog.md`**: Entender el historial reciente de cambios, las características implementadas, las correcciones de errores y las refactorizaciones. Esto ayuda a evitar la duplicación de esfuerzos y a asegurar que las nuevas propuestas sean coherentes con la evolución del proyecto.
+* **`project_context.md`**: Comprender la arquitectura actual del proyecto, las decisiones de diseño clave, los componentes principales, las APIs fundamentales y las convenciones establecidas. Esto es vital para que las propuestas de código se adhieran a la estructura y los patrones existentes, y para que la IA sugiera actualizaciones de contexto relevantes cuando sea necesario.
+
+**Instrucción para la IA:**
+* Integra activamente la información de estos archivos en tu razonamiento al generar respuestas o código.
+* Haz referencia a estas fuentes si tu propuesta se basa en un elemento específico del `changelog` o `project_context`.
+* Si una solicitud entra en conflicto con las directrices o el historial documentado, debes señalarlo y proponer una solución que sea coherente.
+
+---
+
+## 1. No Modificar Directamente el Código (Mostrar para Revisión)
+
+**Directiva Principal:**
+Cuando se solicite una modificación o generación de código, la IA **NUNCA** debe aplicar los cambios directamente al archivo. En su lugar, siempre debe **mostrar las modificaciones propuestas** de forma clara en la interfaz de Cursor, usando un formato de diff (diferencia) o indicando explícitamente el código a añadir/modificar, para que el usuario pueda revisarlo y aprobarlo manualmente.
+
+**Ejemplo de Output Esperado:**
+```diff
+--- a/src/my_module.py
++++ b/src/my_module.py
+@@ -1,5 +1,7 @@
+ def old_function():
+-    print("Hello")
++    # This function has been updated based on the new context
++    print("Hello World")
++    print("New feature added, as per project_context.md")
+
+ def another_function():
+     pass
+
+O bien:
+"He generado el siguiente código para path/to/file.js. Por favor, revisa y aplica si estás de acuerdo:
+
+// Nuevo o modificado código aquí, alineado con el contexto del proyecto
+
+. Actualizar project_context.md
+Directiva:
+Después de que el usuario apruebe y aplique una modificación significativa en el código (implica que el usuario presionó "Apply" o "Accept" la sugerencia de la IA), la IA debe sugerir una actualización para el archivo project_context.md.
+
+El objetivo de project_context.md es mantener un resumen de alto nivel de las decisiones de diseño, la arquitectura, los componentes clave y las APIs importantes del proyecto.
+
+Instrucción para la IA:
+
+Identifica los cambios sustanciales en la estructura, la funcionalidad o las dependencias del proyecto.
+Si los cambios afectan el "conocimiento" de alto nivel del proyecto, genera una propuesta de texto conciso para añadir o modificar en project_context.md.
+Presenta esta sugerencia para project_context.md como una acción separada o una sugerencia de seguimiento, no como parte del diff del código principal.
+Formato de Sugerencia para project_context.md:
+# Propuesta para actualizar `project_context.md`
+
+Considera añadir o modificar la siguiente sección en `project_context.md` para reflejar los cambios realizados:
+
+```diff
+--- a/project_context.md
++++ b/project_context.md
+@@ -X,Y +X,Y @@
+// Aquí el diff propuesto para project_context.md
+// Describe de forma concisa las nuevas características, decisiones de diseño o cambios arquitectónicos.
+// Ej: "Se ha añadido el módulo de autenticación de usuarios con OAuth2, como se discutió en el diseño inicial."
+
+Recordatorio a la IA: No modifiques project_context.md automáticamente. Solo genera el texto propuesto.
+
+3. Actualizar changelog.md (o CHANGELOG.md)
+Directiva:
+Para cada cambio de código aprobado y aplicado por el usuario, la IA debe sugerir una entrada para el archivo de registro de cambios del proyecto, changelog.md (o CHANGELOG.md).
+
+Instrucción para la IA:
+
+Genera una entrada de registro de cambios que resuma los cambios de código realizados.
+La entrada debe ser concisa, clara y orientada al usuario/desarrollador sobre qué se ha modificado.
+Incluye el tipo de cambio (e.g., feat:, fix:, refactor:) si es relevante, siguiendo la convención de Conventional Commits si es posible.
+Presenta esta sugerencia de forma separada de las demás.
+Formato de Sugerencia para changelog.md:
+# Propuesta para añadir al `changelog.md`
+
+Añade la siguiente entrada a la sección `[Unreleased]` o a la versión actual en `changelog.md`:
+
+feat: Añadida funcionalidad de inicio de sesión con redes sociales, acorde con el project_context.md.
+fix: Corregido error en la validación de formularios de registro, abordando el punto ABC-123.
+refactor: Optimizada la función calculate_total_price para mayor rendimiento, basándose en la estrategia de optimización del project_context.md.
+Recordatorio a la IA: No modifiques changelog.md automáticamente. Solo genera el texto propuesto.
+

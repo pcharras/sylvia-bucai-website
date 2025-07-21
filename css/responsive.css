@@ -1,0 +1,651 @@
+/* =======================================
+   RESPONSIVE CSS - MOBILE FIRST
+   ======================================= */
+
+/* =======================================
+   BASE MOBILE STYLES (< 768px)
+   ======================================= */
+
+/* Navegación Mobile */
+.navbar-toggler {
+  border: none;
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+  background: var(--primary-color);
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(139, 31, 43, 0.25);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-collapse {
+  margin-top: 1rem;
+}
+
+.navbar-nav .nav-link {
+  padding: 0.75rem 1rem !important;
+  text-align: center;
+  border-bottom: 1px solid rgba(139, 31, 43, 0.1);
+}
+
+.navbar-nav .nav-link:last-child {
+  border-bottom: none;
+}
+
+/* Logo Mobile */
+.navbar-brand .logo {
+  height: 40px;
+}
+
+/* Decoración Floral Mobile */
+.floral-decoration {
+  display: none; /* Oculta en móviles para mejor rendimiento */
+}
+
+/* Hero Section Mobile */
+.hero-section {
+  padding-top: 120px;
+  padding-bottom: 4rem;
+  text-align: center;
+}
+
+.hero-section .container {
+  padding: 0 1rem;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-section .lead {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.hero-section .btn {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.hero-section .btn:last-child {
+  margin-bottom: 0;
+}
+
+/* Títulos de Sección Mobile */
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.section-title::after {
+  width: 60px;
+  height: 2px;
+  bottom: -10px;
+}
+
+/* Secciones Mobile */
+section {
+  padding: 3rem 0;
+}
+
+section .container {
+  padding: 0 1rem;
+}
+
+/* Sobre Mí Mobile */
+.about-image {
+  margin-bottom: 2rem;
+}
+
+.highlight-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+}
+
+/* Formularios Mobile */
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-control, .form-select {
+  padding: 0.5rem 0.75rem;
+  font-size: 16px; /* Previene zoom en iOS */
+}
+
+/* Testimonios Mobile */
+.testimonial-card {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.testimonial-content p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.quote-icon {
+  font-size: 1.5rem;
+}
+
+/* Contacto Mobile */
+.contact-info {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.contact-item {
+  margin-bottom: 1.5rem;
+}
+
+.contact-item i {
+  font-size: 1rem;
+  margin-right: 0.75rem;
+}
+
+.map-container iframe {
+  height: 250px;
+}
+
+/* WhatsApp Flotante Mobile */
+.whatsapp-float {
+  bottom: 15px;
+  right: 15px;
+}
+
+.whatsapp-float a {
+  width: 50px;
+  height: 50px;
+}
+
+.whatsapp-float i {
+  font-size: 1.2rem;
+}
+
+/* Footer Mobile */
+footer {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+footer .container {
+  padding: 0 1rem;
+}
+
+footer .row > div {
+  margin-bottom: 1rem;
+}
+
+footer .row > div:last-child {
+  margin-bottom: 0;
+}
+
+/* =======================================
+   TABLET STYLES (768px - 991px)
+   ======================================= */
+@media (min-width: 768px) {
+  
+  /* Navegación Tablet */
+  .navbar-brand .logo {
+    height: 45px;
+  }
+  
+  /* Hero Section Tablet */
+  .hero-section {
+    padding-top: 140px;
+    text-align: left;
+  }
+  
+  .hero-section h1 {
+    font-size: 3rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-section .lead {
+    font-size: 1.3rem;
+  }
+  
+  .hero-section .btn {
+    width: auto;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Decoración Floral Tablet */
+  .floral-decoration {
+    display: block;
+    width: 200px;
+    opacity: 0.8;
+  }
+  
+  /* Títulos Tablet */
+  .section-title {
+    font-size: 2.2rem;
+  }
+  
+  .section-title::after {
+    width: 70px;
+    height: 3px;
+    bottom: -12px;
+  }
+  
+  /* Secciones Tablet */
+  section {
+    padding: 4rem 0;
+  }
+  
+  /* Sobre Mí Tablet */
+  .about-image {
+    margin-bottom: 0;
+  }
+  
+  /* Formularios Tablet */
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .form-control, .form-select {
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Testimonios Tablet */
+  .testimonial-card {
+    padding: 2rem;
+    margin-bottom: 0;
+  }
+  
+  .testimonial-content p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  
+  .quote-icon {
+    font-size: 2rem;
+  }
+  
+  /* Contacto Tablet */
+  .contact-info {
+    padding: 2rem;
+    margin-bottom: 0;
+  }
+  
+  .contact-item {
+    margin-bottom: 2rem;
+  }
+  
+  .contact-item i {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+  }
+  
+  .map-container iframe {
+    height: 300px;
+  }
+  
+  /* WhatsApp Flotante Tablet */
+  .whatsapp-float {
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .whatsapp-float a {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .whatsapp-float i {
+    font-size: 1.3rem;
+  }
+  
+  /* Footer Tablet */
+  footer {
+    text-align: left;
+    padding: 2rem 0;
+  }
+  
+  footer .row > div {
+    margin-bottom: 0;
+  }
+}
+
+/* =======================================
+   DESKTOP STYLES (992px - 1199px)
+   ======================================= */
+@media (min-width: 992px) {
+  
+  /* Navegación Desktop */
+  .navbar {
+    padding: 1.5rem 0;
+  }
+  
+  .navbar-brand .logo {
+    height: 50px;
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 0.5rem 1.5rem !important;
+  }
+  
+  /* Hero Section Desktop */
+  .hero-section {
+    padding-top: 120px;
+    padding-bottom: 5rem;
+  }
+  
+  .hero-section h1 {
+    font-size: 3.5rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 2rem;
+  }
+  
+  .hero-section .lead {
+    font-size: 1.4rem;
+  }
+  
+  .hero-section .btn {
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+  
+  /* Decoración Floral Desktop */
+  .floral-decoration {
+    width: 250px;
+    opacity: 0.9;
+  }
+  
+  /* Títulos Desktop */
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-title::after {
+    width: 80px;
+    height: 3px;
+    bottom: -15px;
+  }
+  
+  /* Secciones Desktop */
+  section {
+    padding: 5rem 0;
+  }
+  
+  /* Placeholder Images Desktop */
+  .placeholder-image {
+    padding: 4rem 3rem;
+  }
+  
+  /* Formularios Desktop */
+  .form-control, .form-select {
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Testimonios Desktop */
+  .testimonial-card {
+    padding: 2.5rem;
+  }
+  
+  .testimonial-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+  
+  /* Contacto Desktop */
+  .contact-info {
+    padding: 2.5rem;
+  }
+  
+  .map-container iframe {
+    height: 350px;
+  }
+  
+  /* WhatsApp Flotante Desktop */
+  .whatsapp-float a {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .whatsapp-float i {
+    font-size: 1.5rem;
+  }
+}
+
+/* =======================================
+   LARGE DESKTOP STYLES (> 1200px)
+   ======================================= */
+@media (min-width: 1200px) {
+  
+  /* Contenedor Large Desktop */
+  .container {
+    max-width: 1140px;
+  }
+  
+  /* Hero Section Large Desktop */
+  .hero-section h1 {
+    font-size: 4rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 2.2rem;
+  }
+  
+  .hero-section .lead {
+    font-size: 1.5rem;
+  }
+  
+  /* Decoración Floral Large Desktop */
+  .floral-decoration {
+    width: 300px;
+    opacity: 1;
+  }
+  
+  /* Títulos Large Desktop */
+  .section-title {
+    font-size: 3rem;
+  }
+  
+  /* Secciones Large Desktop */
+  section {
+    padding: 6rem 0;
+  }
+  
+  /* Testimonios Large Desktop */
+  .testimonial-card {
+    padding: 3rem;
+  }
+  
+  .testimonial-content p {
+    font-size: 1.15rem;
+    line-height: 1.9;
+  }
+  
+  /* Contacto Large Desktop */
+  .contact-info {
+    padding: 3rem;
+  }
+  
+  .map-container iframe {
+    height: 400px;
+  }
+}
+
+/* =======================================
+   VERY LARGE DESKTOP STYLES (> 1400px)
+   ======================================= */
+@media (min-width: 1400px) {
+  
+  /* Contenedor Very Large Desktop */
+  .container {
+    max-width: 1320px;
+  }
+  
+  /* Hero Section Very Large Desktop */
+  .hero-section h1 {
+    font-size: 4.5rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-section .lead {
+    font-size: 1.6rem;
+  }
+  
+  /* Decoración Floral Very Large Desktop */
+  .floral-decoration {
+    width: 350px;
+  }
+  
+  /* Secciones Very Large Desktop */
+  section {
+    padding: 7rem 0;
+  }
+}
+
+/* =======================================
+   LANDSCAPE PHONE STYLES
+   ======================================= */
+@media (max-width: 767px) and (orientation: landscape) {
+  
+  /* Hero Section Landscape Phone */
+  .hero-section {
+    padding-top: 100px;
+    padding-bottom: 2rem;
+  }
+  
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 1.3rem;
+  }
+  
+  .hero-section .lead {
+    font-size: 1.1rem;
+  }
+  
+  /* Secciones Landscape Phone */
+  section {
+    padding: 2rem 0;
+  }
+  
+  /* Títulos Landscape Phone */
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Formularios Landscape Phone */
+  .testimonial-card {
+    padding: 1rem;
+  }
+  
+  .map-container iframe {
+    height: 200px;
+  }
+}
+
+/* =======================================
+   PRINT STYLES
+   ======================================= */
+@media print {
+  
+  /* Ocultar elementos innecesarios */
+  .navbar,
+  .whatsapp-float,
+  .floral-decoration,
+  .btn,
+  .map-container {
+    display: none !important;
+  }
+  
+  /* Ajustar colores para impresión */
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .section-title {
+    color: black !important;
+  }
+  
+  .testimonial-card,
+  .contact-info,
+  .highlight-box {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ajustar tamaños para impresión */
+  .section-title {
+    font-size: 1.5rem !important;
+  }
+  
+  section {
+    padding: 1rem 0 !important;
+  }
+}
+
+/* =======================================
+   ACCESSIBILITY - PREFERS REDUCED MOTION
+   ======================================= */
+@media (prefers-reduced-motion: reduce) {
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .whatsapp-float {
+    animation: none !important;
+  }
+  
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =======================================
+   ACCESSIBILITY - HIGH CONTRAST
+   ======================================= */
+@media (prefers-contrast: high) {
+  
+  :root {
+    --primary-color: #000000;
+    --secondary-color: #333333;
+    --text-dark: #000000;
+    --text-light: #333333;
+    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 4px 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .btn {
+    border: 2px solid currentColor !important;
+  }
+  
+  .form-control, .form-select {
+    border: 2px solid #000000 !important;
+  }
+  
+  .testimonial-card,
+  .contact-info,
+  .highlight-box {
+    border: 2px solid #000000 !important;
+  }
+} 

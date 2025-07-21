@@ -1,0 +1,90 @@
+# =======================================
+# GITIGNORE - Sitio Web Sylvia Bucai
+# =======================================
+
+# Variables de entorno y configuración sensible
+.env
+.env.local
+.env.production
+.env.development
+config.local.txt
+
+# Archivos del sistema
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencias (si se usan en el futuro)
+node_modules/
+bower_components/
+jspm_packages/
+
+# Archivos de build/dist (si se usan en el futuro)
+dist/
+build/
+.tmp/
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos temporales
+*.tmp
+*.temp
+.cache/
+
+# Archivos de backup
+*.bak
+*.backup
+*~
+
+# Archivos de testing
+coverage/
+.nyc_output/
+.coverage
+
+# Archivos específicos del proyecto
+# (Descomentar si no quieres incluir ciertos archivos)
+# assets/images/*.jpg
+# assets/images/*.png
+
+# Certificados y claves
+*.pem
+*.key
+*.crt
+*.csr
+
+# Archivos de hosting específicos
+.netlify/
+.vercel/
+
+# Archivos de analytics y tracking
+google*.html
+.well-known/
+
+# Archivos de desarrollo local
+local/
+temp/
+test-files/
+
+# =======================================
+# NOTAS:
+# - Las fotos de Sylvia SÍ se incluirán
+# - Los assets gráficos SÍ se incluirán
+# - La configuración ejemplo SÍ se incluye
+# - Los archivos .env NO se incluyen por seguridad
+# ======================================= 

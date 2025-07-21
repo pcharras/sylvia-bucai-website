@@ -1,0 +1,106 @@
+# =======================================
+# CONFIGURACIÓN DEL SITIO WEB
+# Sylvia Bucai - Abogada y Escribana
+# =======================================
+
+# API de n8n para sistema de citas
+N8N_API_BASE_URL=https://n8n.example.com
+
+# Configuración del calendario
+WEEKS_TO_SHOW=2
+
+# Información de contacto
+WHATSAPP_NUMBER=5493511551011688
+
+# Configuración de la aplicación
+APP_NAME=Sylvia Bucai - Abogada
+APP_DESCRIPTION=Sitio web institucional para abogada independiente
+APP_VERSION=1.0.0
+
+# Configuración de correo (opcional)
+CONTACT_EMAIL=sylviabucai@gmail.com
+CONTACT_EMAIL_ALT=sylviabucai@hotmail.com
+
+# Configuración de la oficina
+OFFICE_ADDRESS=San Martín 165, primer piso oficina 102, Córdoba Capital
+OFFICE_PHONE=351-155 101688
+
+# Horarios de atención
+BUSINESS_HOURS_START=15:30
+BUSINESS_HOURS_END=18:00
+BUSINESS_DAYS=monday,tuesday,wednesday,thursday
+
+# Configuración del sitio
+SITE_URL=https://sylviabucai.com
+SITE_LANGUAGE=es
+SITE_TIMEZONE=America/Argentina/Cordoba
+
+# Google Analytics (opcional)
+GA_TRACKING_ID=
+
+# Google Maps (opcional)
+GOOGLE_MAPS_API_KEY=
+
+# Configuración de SEO
+SEO_KEYWORDS=abogada,escribana,derecho inmobiliario,notarial,Córdoba,asesoramiento legal,Sylvia Bucai
+
+# Configuración de redes sociales (opcional)
+FACEBOOK_URL=
+INSTAGRAM_URL=
+LINKEDIN_URL=
+
+# Configuración de desarrollo
+NODE_ENV=development
+DEBUG=true
+
+# Configuración de hosting
+HOSTING_PROVIDER=
+DOMAIN_NAME=sylviabucai.com
+
+# Configuración de certificados SSL
+SSL_ENABLED=true
+
+# Configuración de CDN (opcional)
+CDN_URL=
+
+# Configuración de backup (opcional)
+BACKUP_ENABLED=false
+BACKUP_FREQUENCY=daily
+
+# Configuración de monitoreo (opcional)
+MONITORING_ENABLED=false
+UPTIME_MONITORING_URL=
+
+# Configuración de notificaciones
+EMAIL_NOTIFICATIONS=true
+WHATSAPP_NOTIFICATIONS=true
+
+# Configuración de cache (opcional)
+CACHE_ENABLED=true
+CACHE_DURATION=3600
+
+# Configuración de logs
+LOG_LEVEL=info
+LOG_FILE=logs/app.log
+
+# =======================================
+# INSTRUCCIONES DE USO
+# =======================================
+# 1. Copiar este archivo como .env en el directorio raíz
+# 2. Completar las URLs y claves reales
+# 3. Nunca commitear archivos .env con datos sensibles
+# 4. Usar variables de entorno en producción
+# 5. Validar configuración antes de desplegar
+#
+# Variables críticas que DEBEN configurarse:
+# - N8N_API_BASE_URL
+# - WHATSAPP_NUMBER
+# - SITE_URL
+# - CONTACT_EMAIL
+#
+# Variables opcionales:
+# - GA_TRACKING_ID
+# - GOOGLE_MAPS_API_KEY
+# - Redes sociales
+# - Configuraciones de hosting
+# ======================================= 
