@@ -10,6 +10,14 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ### Added
 - [Próximas funcionalidades]
 
+## [1.1.1] - 2025-07-18
+
+### Added
+- Repositorio GitHub configurado: https://github.com/pcharras/sylvia-bucai-website
+- Archivo .gitignore con exclusiones de seguridad
+- Configuración de git con commit inicial
+- Documentación lista para colaboración
+
 ### Changed
 - [Cambios en funcionalidades existentes]
 
