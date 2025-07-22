@@ -173,6 +173,8 @@ function initFormValidation() {
   const form = document.getElementById('appointment-form');
   
   if (form) {
+    // ❌ DESACTIVADO: Event listener duplicado que causa conflicto con calendar.js
+    /*
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       
@@ -180,6 +182,10 @@ function initFormValidation() {
         handleFormSubmission();
       }
     });
+    */
+    
+    // ✅ Solo mantener validación en tiempo real
+    // El envío del formulario se maneja en calendar.js
     
     // Validación en tiempo real
     const inputs = form.querySelectorAll('input, select, textarea');
@@ -194,7 +200,7 @@ function initFormValidation() {
     });
   }
   
-  console.log('📝 Validación de formularios inicializada');
+  console.log('📝 Validación de formularios inicializada (solo tiempo real - envío en calendar.js)');
 }
 
 // =======================================
@@ -221,8 +227,8 @@ function validateForm() {
   if (!telefono.value.trim()) {
     showFieldError(telefono, 'El teléfono es requerido');
     isValid = false;
-  } else if (!/^\d{3}-?\d{3}-?\d{4}$/.test(telefono.value.trim())) {
-    showFieldError(telefono, 'Formato de teléfono inválido');
+      } else if (!/^\d{10,12}$/.test(telefono.value.trim())) {
+      showFieldError(telefono, 'Ingresa entre 10 y 12 números (ej: 3511234567)');
     isValid = false;
   }
   
@@ -498,6 +504,55 @@ function initLazyLoading() {
     lazyImages.forEach(img => imageObserver.observe(img));
   }
 }
+
+// =======================================
+// FORMATEO AUTOMÁTICO DE TELÉFONO
+// =======================================
+function initPhoneFormatting() {
+  const telefonoInput = document.getElementById('telefono');
+  
+  if (telefonoInput) {
+    // 🚀 NUEVA LÓGICA SIMPLE: Solo números, máximo 12
+    telefonoInput.addEventListener('input', function(e) {
+      // Solo permitir números
+      let value = e.target.value.replace(/\D/g, '');
+      
+      // Limitar a 12 dígitos máximo
+      if (value.length > 12) {
+        value = value.substring(0, 12);
+      }
+      
+      e.target.value = value;
+    });
+    
+    // Validación en tiempo real simple
+    telefonoInput.addEventListener('blur', function(e) {
+      const value = e.target.value;
+      const isValid = /^\d{10,12}$/.test(value);
+      
+      if (value && !isValid) {
+        e.target.classList.add('is-invalid');
+        if (value.length < 10) {
+          showFieldError(e.target, 'Mínimo 10 números');
+        } else if (value.length > 12) {
+          showFieldError(e.target, 'Máximo 12 números');
+        } else {
+          showFieldError(e.target, 'Solo números (ej: 3511234567)');
+        }
+      } else {
+        e.target.classList.remove('is-invalid');
+        hideFieldError(e.target);
+      }
+    });
+    
+    console.log('📱 Validación simple de teléfono inicializada');
+  }
+}
+
+// Inicializar al cargar
+document.addEventListener('DOMContentLoaded', function() {
+  initPhoneFormatting();
+});
 
 // =======================================
 // EXPORTAR FUNCIONES (para testing)

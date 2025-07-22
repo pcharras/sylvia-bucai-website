@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Integración APIs - Sylvia Bucai</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            color: #8B1F2B;
+        }
+        button {
+            background: #8B1F2B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #6E1520;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Integración APIs - Sistema de Citas</h1>
+    <p><strong>URLs de Testing:</strong></p>
+    <ul>
+        <li><strong>GET:</strong> https://cobquecura.app.n8n.cloud/webhook/turnos-silvia</li>
+        <li><strong>POST:</strong> https://cobquecura.app.n8n.cloud/webhook/turnos-silvia</li>
+    </ul>
+
+    <!-- TEST 1: Disponibilidad -->
+    <div class="container">
+        <h2>🔍 Test 1: Obtener Disponibilidad</h2>
+        <p>Probar el endpoint GET para obtener turnos ocupados.</p>
+        
+        <label>Fecha Inicio:</label>
+        <input type="date" id="fecha-inicio" value="2025-07-23">
+        
+        <label>Fecha Fin:</label>
+        <input type="date" id="fecha-fin" value="2025-08-06">
+        
+        <button id="test-disponibilidad">Probar Disponibilidad</button>
+        <button id="test-disponibilidad-real">Usar Fechas Reales (Próximas 2 Semanas)</button>
+        
+        <div id="result-disponibilidad" class="result" style="display: none;"></div>
+        <div id="processed-disponibilidad" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- TEST 2: Reservar Cita -->
+    <div class="container">
+        <h2>📝 Test 2: Reservar Cita</h2>
+        <p><strong>⚠️ CUIDADO:</strong> Esto creará una cita real en el sistema de Sylvia.</p>
+        
+        <label>Nombre:</label>
+        <input type="text" id="nombre" value="Test Usuario" placeholder="Nombre completo">
+        
+        <label>Teléfono:</label>
+        <input type="tel" id="telefono" value="3510000000" placeholder="3511234567 (solo números)" maxlength="12">
+        
+        <label>Fecha:</label>
+        <input type="date" id="fecha-cita" value="2025-07-31">
+        
+        <label>Hora:</label>
+        <select id="hora-cita">
+            <option value="">Seleccionar hora</option>
+            <option value="15:30">15:30</option>
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+        </select>
+        
+        <label>Consulta:</label>
+        <textarea id="consulta" placeholder="Descripción de la consulta" rows="3">Test de integración del sistema de citas - Por favor ignorar esta prueba.</textarea>
+        
+        <button id="test-reserva" style="background: #dc3545;">⚠️ Crear Cita Real (SOLO TESTING)</button>
+        
+        <div id="result-reserva" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- TEST 3: Integración Frontend -->
+    <div class="container">
+        <h2>🎯 Test 3: Integración con Frontend</h2>
+        <p>Probar las funciones del calendario que ya están implementadas.</p>
+        
+        <button id="test-calendar-debug">Probar CalendarDebug.showStats()</button>
+        <button id="test-calendar-refresh">Refrescar Disponibilidad</button>
+        <button id="test-mock-data">Probar con Datos Mock</button>
+        
+        <div id="result-frontend" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Información de Debugging -->
+    <div class="container">
+        <h2>🔧 Información de Debugging</h2>
+        <p>Abre la consola del navegador (F12) para ver logs detallados.</p>
+        <p><strong>Comandos disponibles en consola:</strong></p>
+        <ul>
+            <li><code>window.CalendarDebug.showStats()</code> - Ver estadísticas</li>
+            <li><code>window.CalendarDebug.refresh()</code> - Refrescar disponibilidad</li>
+            <li><code>window.CalendarDebug.getConfig()</code> - Ver configuración</li>
+        </ul>
+    </div>
+
+    <!-- Incluir scripts del proyecto -->
+    <script>
+        // Configuración de testing
+        const API_BASE = 'https://cobquecura.app.n8n.cloud';
+        const WEBHOOK_PATH = '/webhook/turnos-silvia';
+
+        // TEST 1: Disponibilidad
+        document.getElementById('test-disponibilidad').addEventListener('click', async function() {
+            const btn = this;
+            const resultDiv = document.getElementById('result-disponibilidad');
+            const processedDiv = document.getElementById('processed-disponibilidad');
+            
+            btn.disabled = true;
+            btn.textContent = 'Probando...';
+            
+            const fechaInicio = document.getElementById('fecha-inicio').value;
+            const fechaFin = document.getElementById('fecha-fin').value;
+            
+            try {
+                const url = `${API_BASE}${WEBHOOK_PATH}?fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`;
+                console.log('🔍 Testing URL:', url);
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                resultDiv.textContent = `✅ Respuesta de la API:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'result success';
+                resultDiv.style.display = 'block';
+                
+                // Simular procesamiento del frontend
+                const processed = procesarTurnosOcupados(data, fechaInicio, fechaFin);
+                processedDiv.textContent = `🔄 Procesado por frontend:\n${JSON.stringify(processed, null, 2)}`;
+                processedDiv.className = 'result';
+                processedDiv.style.display = 'block';
+                
+            } catch (error) {
+                resultDiv.textContent = `❌ Error:\n${error.message}`;
+                resultDiv.className = 'result error';
+                resultDiv.style.display = 'block';
+                console.error('Error en test de disponibilidad:', error);
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Probar Disponibilidad';
+        });
+
+        // TEST 1B: Fechas reales
+        document.getElementById('test-disponibilidad-real').addEventListener('click', function() {
+            const hoy = new Date();
+            const manana = new Date(hoy);
+            manana.setDate(hoy.getDate() + 1);
+            
+            const dosSemanasDesp = new Date(hoy);
+            dosSemanasDesp.setDate(hoy.getDate() + 14);
+            
+            document.getElementById('fecha-inicio').value = manana.toISOString().slice(0, 10);
+            document.getElementById('fecha-fin').value = dosSemanasDesp.toISOString().slice(0, 10);
+            
+            document.getElementById('test-disponibilidad').click();
+        });
+
+        // TEST 2: Reservar cita
+        document.getElementById('test-reserva').addEventListener('click', async function() {
+            if (!confirm('⚠️ ¿Estás seguro? Esto creará una cita REAL en el sistema de Sylvia.')) {
+                return;
+            }
+            
+            const btn = this;
+            const resultDiv = document.getElementById('result-reserva');
+            
+            btn.disabled = true;
+            btn.textContent = 'Creando cita...';
+            
+            const payload = {
+                nombre: document.getElementById('nombre').value,
+                telefono: document.getElementById('telefono').value,
+                fecha: document.getElementById('fecha-cita').value,
+                hora: document.getElementById('hora-cita').value,
+                consulta: document.getElementById('consulta').value
+            };
+            
+            try {
+                const url = `${API_BASE}${WEBHOOK_PATH}`;
+                console.log('📝 Testing POST:', url, payload);
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success === "true" || data.success === true) {
+                    resultDiv.textContent = `✅ Cita creada exitosamente:\n${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.textContent = `⚠️ Respuesta inesperada:\n${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+                resultDiv.style.display = 'block';
+                
+            } catch (error) {
+                resultDiv.textContent = `❌ Error:\n${error.message}`;
+                resultDiv.className = 'result error';
+                resultDiv.style.display = 'block';
+                console.error('Error en test de reserva:', error);
+            }
+            
+            btn.disabled = false;
+            btn.textContent = '⚠️ Crear Cita Real (SOLO TESTING)';
+        });
+
+        // Función auxiliar para procesar turnos ocupados (simulando el frontend)
+        function procesarTurnosOcupados(occupiedData, startDate, endDate) {
+            const HORARIOS_POSIBLES = ['15:30', '16:00', '16:30', '17:00', '17:30'];
+            const DIAS_LABORABLES = [1, 2, 3, 4]; // Lun-Jue
+            
+            const availability = { fechas_disponibles: [] };
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            
+            for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+                const dayOfWeek = date.getDay();
+                if (DIAS_LABORABLES.includes(dayOfWeek)) {
+                    const dateString = date.toISOString().split('T')[0];
+                    
+                    // Obtener horarios ocupados para esta fecha
+                    const occupiedSlots = [];
+                    if (occupiedData.turnos_ocupados) {
+                        const dateData = occupiedData.turnos_ocupados.find(d => d.fecha === dateString);
+                        if (dateData) {
+                            occupiedSlots.push(...dateData.horarios);
+                        }
+                    }
+                    
+                    // Calcular disponibles
+                    const availableSlots = HORARIOS_POSIBLES.filter(slot => !occupiedSlots.includes(slot));
+                    
+                    if (availableSlots.length > 0) {
+                        availability.fechas_disponibles.push({
+                            fecha: dateString,
+                            horarios: availableSlots
+                        });
+                    }
+                }
+            }
+            
+            return availability;
+        }
+
+        console.log('🧪 Test de integración cargado. Las funciones CalendarDebug estarán disponibles cuando se cargue calendar.js desde el sitio principal.');
+    </script>
+</body>
+</html> 

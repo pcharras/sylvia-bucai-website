@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // =======================================
 function loadConfig() {
   // Cargar desde variables de entorno o usar valores por defecto
-  CALENDAR_CONFIG.apiBaseUrl = getEnvVar('N8N_API_BASE_URL', 'https://n8n.example.com');
+  CALENDAR_CONFIG.apiBaseUrl = getEnvVar('N8N_API_BASE_URL', 'https://cobquecura.app.n8n.cloud');
   CALENDAR_CONFIG.weeksToShow = parseInt(getEnvVar('WEEKS_TO_SHOW', '2'));
   
   console.log('⚙️ Configuración cargada:', CALENDAR_CONFIG);
@@ -150,10 +150,10 @@ function formatDateForDisplay(dateString) {
 }
 
 // =======================================
-// OBTENER DISPONIBILIDAD DESDE API
+// OBTENER DISPONIBILIDAD DESDE API (MODIFICADO)
 // =======================================
 async function fetchAvailability(startDate, endDate) {
-  const url = `${CALENDAR_CONFIG.apiBaseUrl}/api/disponibilidad?fecha_inicio=${startDate}&fecha_fin=${endDate}`;
+  const url = `${CALENDAR_CONFIG.apiBaseUrl}/webhook/turnos-silvia?fecha_inicio=${startDate}&fecha_fin=${endDate}`;
   
   try {
     const response = await fetch(url, {
@@ -169,7 +169,9 @@ async function fetchAvailability(startDate, endDate) {
     }
     
     const data = await response.json();
-    return data;
+    
+    // 🆕 NUEVA LÓGICA: Convertir turnos ocupados a disponibles
+    return processOccupiedSlots(data, startDate, endDate);
     
   } catch (error) {
     console.error('Error en API de disponibilidad:', error);
@@ -180,10 +182,10 @@ async function fetchAvailability(startDate, endDate) {
 }
 
 // =======================================
-// GENERAR DISPONIBILIDAD SIMULADA
+// 🆕 PROCESAR TURNOS OCUPADOS Y CALCULAR DISPONIBLES
 // =======================================
-function generateMockAvailability(startDate, endDate) {
-  console.log('🔄 Generando disponibilidad simulada');
+function processOccupiedSlots(occupiedData, startDate, endDate) {
+  console.log('🔄 Procesando turnos ocupados desde API');
   
   const availability = {
     fechas_disponibles: []
@@ -192,17 +194,83 @@ function generateMockAvailability(startDate, endDate) {
   const start = new Date(startDate);
   const end = new Date(endDate);
   
-  // Generar fechas disponibles
+  // Iterar por cada fecha en el rango
   for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
     if (isBusinessDay(date) && !isHoliday(date)) {
-      availability.fechas_disponibles.push({
-        fecha: formatDateForAPI(date),
-        horarios: [...CALENDAR_CONFIG.timeSlots]
-      });
+      const dateString = formatDateForAPI(date);
+      
+      // Obtener horarios ocupados para esta fecha
+      const occupiedSlots = getOccupiedSlotsForDate(occupiedData, dateString);
+      
+      // Calcular horarios disponibles (todos - ocupados)
+      const availableSlots = calculateAvailableSlots(occupiedSlots);
+      
+      // Solo agregar fechas que tienen al menos 1 horario disponible
+      if (availableSlots.length > 0) {
+        availability.fechas_disponibles.push({
+          fecha: dateString,
+          horarios: availableSlots
+        });
+      }
     }
   }
   
+  console.log(`✅ Procesados ${availability.fechas_disponibles.length} días con horarios disponibles`);
   return availability;
+}
+
+// =======================================
+// 🆕 OBTENER HORARIOS OCUPADOS PARA UNA FECHA ESPECÍFICA
+// =======================================
+function getOccupiedSlotsForDate(occupiedData, targetDate) {
+  if (!occupiedData.turnos_ocupados) {
+    return [];
+  }
+  
+  const dateData = occupiedData.turnos_ocupados.find(d => d.fecha === targetDate);
+  return dateData ? dateData.horarios : [];
+}
+
+// =======================================
+// 🆕 CALCULAR HORARIOS DISPONIBLES
+// =======================================
+function calculateAvailableSlots(occupiedSlots) {
+  // Todos los horarios posibles de Sylvia
+  const allSlots = [...CALENDAR_CONFIG.timeSlots];
+  
+  // Filtrar los ocupados
+  const availableSlots = allSlots.filter(slot => !occupiedSlots.includes(slot));
+  
+  console.log(`🕐 Fecha: ${occupiedSlots.length} ocupados, ${availableSlots.length} disponibles`);
+  return availableSlots;
+}
+
+// =======================================
+// GENERAR DISPONIBILIDAD SIMULADA (MODIFICADO)
+// =======================================
+function generateMockAvailability(startDate, endDate) {
+  console.log('🔄 Generando disponibilidad simulada (modo ocupados)');
+  
+  // 🆕 Simular algunos turnos ocupados para testing (fechas actualizadas - hoy: 22/07/2025)
+  const mockOccupiedData = {
+    turnos_ocupados: [
+      {
+        fecha: "2025-07-24",
+        horarios: ["15:30", "17:00"]
+      },
+      {
+        fecha: "2025-07-25", 
+        horarios: ["16:00"]
+      },
+      {
+        fecha: "2025-07-29",
+        horarios: ["16:30", "17:30"]
+      }
+    ]
+  };
+  
+  // Procesar usando la nueva lógica
+  return processOccupiedSlots(mockOccupiedData, startDate, endDate);
 }
 
 function isBusinessDay(date) {
@@ -373,7 +441,7 @@ async function handleAppointmentSubmission(e) {
     const result = await submitAppointment(appointmentData);
     
     // Mostrar resultado
-    if (result.success) {
+    if (result.success === true || result.success === "true") {
       showSuccessMessage('¡Cita reservada exitosamente! Te contactaremos para confirmar.');
       form.reset();
       clearHours();
@@ -404,7 +472,18 @@ function validateAppointmentForm() {
       showFieldError(field, 'Este campo es requerido');
       isValid = false;
     } else if (field) {
-      clearFieldError(field);
+      // Validación específica para teléfono - SIMPLIFICADA
+      if (fieldId === 'telefono') {
+        const telefonoRegex = /^\d{10,12}$/;
+        if (!telefonoRegex.test(field.value.trim())) {
+          showFieldError(field, 'Ingresa entre 10 y 12 números (ej: 3511234567)');
+          isValid = false;
+        } else {
+          clearFieldError(field);
+        }
+      } else {
+        clearFieldError(field);
+      }
     }
   });
   
@@ -430,7 +509,7 @@ function gatherAppointmentData() {
 // ENVIAR CITA A LA API
 // =======================================
 async function submitAppointment(appointmentData) {
-  const url = `${CALENDAR_CONFIG.apiBaseUrl}/api/reservar-cita`;
+  const url = `${CALENDAR_CONFIG.apiBaseUrl}/webhook/turnos-silvia`;
   
   try {
     const response = await fetch(url, {
@@ -452,11 +531,21 @@ async function submitAppointment(appointmentData) {
   } catch (error) {
     console.error('Error en API de reserva:', error);
     
-    // Fallback: simular éxito
+    // Fallback: simular éxito (formato real de n8n)
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0,10).replace(/-/g,'');
+    const timeStr = now.toTimeString().slice(0,5).replace(':','');
+    
     return {
-      success: true,
+      success: "true",
       message: 'Cita registrada (modo simulación)',
-      appointmentId: 'SIM-' + Date.now()
+      appointmentId: `CITA-${dateStr}-${timeStr}`,
+      details: {
+        nombre: 'Usuario de Prueba',
+        fecha: now.toISOString().slice(0,10),
+        hora: now.toTimeString().slice(0,5),
+        estado: 'confirmada'
+      }
     };
   }
 }
@@ -511,46 +600,86 @@ function clearFieldError(field) {
   }
 }
 
+// =======================================
+// FUNCIONES DE MENSAJES DE USUARIO
+// =======================================
 function showSuccessMessage(message) {
-  const alert = document.createElement('div');
-  alert.className = 'alert alert-success alert-dismissible fade show';
-  alert.innerHTML = `
+  // Crear el elemento de notificación
+  const notification = document.createElement('div');
+  notification.className = 'alert alert-success alert-dismissible fade show position-fixed';
+  notification.style.cssText = `
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  `;
+  
+  notification.innerHTML = `
     <i class="fas fa-check-circle me-2"></i>
     ${message}
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
   `;
   
-  const form = document.getElementById('appointment-form');
-  form.parentElement.insertBefore(alert, form);
+  // Agregar al body
+  document.body.appendChild(notification);
   
-  // Scroll al mensaje
-  alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  
-  // Remover después de 8 segundos
+  // Auto-remover después de 5 segundos
   setTimeout(() => {
-    alert.remove();
-  }, 8000);
+    if (notification.parentNode) {
+      notification.remove();
+    }
+  }, 5000);
+  
+  console.log(`✅ Éxito: ${message}`);
 }
 
 function showErrorMessage(message) {
-  const alert = document.createElement('div');
-  alert.className = 'alert alert-danger alert-dismissible fade show';
-  alert.innerHTML = `
+  // Crear el elemento de notificación de error
+  const notification = document.createElement('div');
+  notification.className = 'alert alert-danger alert-dismissible fade show position-fixed';
+  notification.style.cssText = `
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  `;
+  
+  notification.innerHTML = `
     <i class="fas fa-exclamation-triangle me-2"></i>
     ${message}
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
   `;
   
-  const form = document.getElementById('appointment-form');
-  form.parentElement.insertBefore(alert, form);
+  // Agregar al body
+  document.body.appendChild(notification);
   
-  // Scroll al mensaje
-  alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  
-  // Remover después de 8 segundos
+  // Auto-remover después de 7 segundos (más tiempo para errores)
   setTimeout(() => {
-    alert.remove();
-  }, 8000);
+    if (notification.parentNode) {
+      notification.remove();
+    }
+  }, 7000);
+  
+  console.log(`❌ Error: ${message}`);
+}
+
+// =======================================
+// 🆕 DEBUGGING Y ANALYTICS
+// =======================================
+function logAvailabilityStats(availability) {
+  const totalDays = availability.fechas_disponibles.length;
+  const totalSlots = availability.fechas_disponibles.reduce((sum, day) => sum + day.horarios.length, 0);
+  
+  console.log(`📊 Estadísticas de disponibilidad:`);
+  console.log(`   📅 Días con horarios: ${totalDays}`);
+  console.log(`   🕐 Total slots disponibles: ${totalSlots}`);
+  
+  // Log detallado por fecha
+  availability.fechas_disponibles.forEach(day => {
+    console.log(`   📅 ${day.fecha}: ${day.horarios.join(', ')}`);
+  });
 }
 
 // =======================================
@@ -567,6 +696,35 @@ window.Calendar = {
   
   getConfig: function() {
     return CALENDAR_CONFIG;
+  }
+};
+
+// =======================================
+// 🆕 FUNCIÓN PÚBLICA PARA TESTING
+// =======================================
+window.CalendarDebug = {
+  // Simular respuesta del API con turnos ocupados
+  testOccupiedSlots: function(occupiedData) {
+    const { startDate, endDate } = generateDateRange();
+    return processOccupiedSlots(occupiedData, startDate, endDate);
+  },
+  
+  // Ver configuración actual
+  getConfig: function() {
+    return CALENDAR_CONFIG;
+  },
+  
+  // Refrescar manualmente
+  refresh: function() {
+    loadAvailableDates();
+  },
+  
+  // Ver estadísticas de disponibilidad
+  showStats: function() {
+    const { startDate, endDate } = generateDateRange();
+    fetchAvailability(startDate, endDate).then(availability => {
+      logAvailabilityStats(availability);
+    });
   }
 };
 

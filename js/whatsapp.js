@@ -8,7 +8,7 @@
 // CONFIGURACIÓN DE WHATSAPP
 // =======================================
 const WHATSAPP_CONFIG = {
-  number: '5493511551011688', // Número internacional de Sylvia
+  number: '5493515101688', // Número internacional de Sylvia
   defaultMessage: 'Hola Sylvia, estoy interesado/a en una consulta legal',
   businessHours: {
     start: '15:30',

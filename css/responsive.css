@@ -38,12 +38,14 @@
 
 /* Logo Mobile */
 .navbar-brand .logo {
-  height: 40px;
+  height: 110px;
 }
 
 /* Decoración Floral Mobile */
 .floral-decoration {
-  display: none; /* Oculta en móviles para mejor rendimiento */
+  display: block;
+  width: 150px;
+  opacity: 0.6;
 }
 
 /* Hero Section Mobile */
@@ -196,7 +198,7 @@ footer .row > div:last-child {
   
   /* Navegación Tablet */
   .navbar-brand .logo {
-    height: 45px;
+    height: 120px;
   }
   
   /* Hero Section Tablet */
@@ -227,7 +229,7 @@ footer .row > div:last-child {
   .floral-decoration {
     display: block;
     width: 200px;
-    opacity: 0.8;
+    opacity: 0.55;
   }
   
   /* Títulos Tablet */
@@ -331,7 +333,7 @@ footer .row > div:last-child {
   }
   
   .navbar-brand .logo {
-    height: 50px;
+    height: 140px;
   }
   
   .navbar-nav .nav-link {
@@ -364,7 +366,7 @@ footer .row > div:last-child {
   /* Decoración Floral Desktop */
   .floral-decoration {
     width: 250px;
-    opacity: 0.9;
+    opacity: 0.5;
   }
   
   /* Títulos Desktop */
@@ -449,7 +451,7 @@ footer .row > div:last-child {
   /* Decoración Floral Large Desktop */
   .floral-decoration {
     width: 300px;
-    opacity: 1;
+    opacity: 0.45;
   }
   
   /* Títulos Large Desktop */
@@ -508,6 +510,7 @@ footer .row > div:last-child {
   /* Decoración Floral Very Large Desktop */
   .floral-decoration {
     width: 350px;
+    opacity: 0.4;
   }
   
   /* Secciones Very Large Desktop */

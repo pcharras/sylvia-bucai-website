@@ -8,7 +8,43 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ## [Unreleased]
 
 ### Added
-- [Próximas funcionalidades]
+- Sistema mejorado de procesamiento de disponibilidad en frontend
+- Funciones de debugging y testing para el sistema de citas (`CalendarDebug`)
+- Nueva especificación técnica para API n8n (`docs/n8n-api-specification.md`)
+- Logs detallados de estadísticas de disponibilidad
+- Testing automático con datos simulados de turnos ocupados
+
+### Changed
+- **BREAKING CHANGE**: API `/api/disponibilidad` ahora devuelve `turnos_ocupados` en lugar de `fechas_disponibles`
+
+## [1.1.2] - 2025-07-22
+
+### Added
+- **🎯 Notificaciones flotantes**: Implementadas funciones `showSuccessMessage()` y `showErrorMessage()` con alertas elegantes
+- **📚 Documentación técnica backend**: Nuevo archivo `docs/nueva-regex-backend.md` con instrucciones para n8n
+- **🧪 Casos de prueba**: Ejemplos detallados de validación de números argentinos
+- **🔧 Logs de debugging**: Console.log mejorado para rastreo de errores
+
+### Changed
+- **🚀 SIMPLIFICACIÓN TOTAL**: Sistema de validación de teléfono completamente rediseñado
+- **Regex frontend**: De `/^\+54\s9\s\d{3,4}\s\d{3}-\d{4}$/` a `/^\d{10,12}$/` (solo números)
+- **UX mejorada**: Campo teléfono acepta solo dígitos, sin formateo automático
+- **Placeholder actualizado**: De "+54 9 351 123-4567" a "3511234567 (solo números)"
+- **Maxlength agregado**: Limitación automática a 12 caracteres en input
+- **Validación simplificada**: Sin detectar códigos de área, sin formateo complejo
+
+### Fixed
+- **🚨 CRÍTICO**: Eliminado error "undefined" temporal en formulario de citas
+- **🔧 Conflicto resuelto**: Event listener duplicado entre `main.js` y `calendar.js` removido
+- **✅ Funciones faltantes**: Agregadas funciones de mensajes que causaban el error
+- **📱 Validación teléfono**: Número `3512527095` ahora funciona correctamente sin errores
+- **🎨 Notificaciones**: Alertas flotantes con auto-remove y estilos Bootstrap
+- **🧹 Código limpio**: Lógica de formateo compleja eliminada para evitar bugs
+
+### Removed
+- **❌ Formateo automático**: Eliminadas funciones `formatArgentinePhone()` e `initPhoneFormatting()` complejas
+- **❌ Detección códigos**: Removida lógica de detectar códigos de área de 3/4 dígitos
+- **❌ Event listener obsoleto**: Desactivado manejador duplicado de formularios en `main.js`
 
 ## [1.1.1] - 2025-07-18
 

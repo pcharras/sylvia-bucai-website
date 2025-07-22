@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Teléfono - Sylvia Bucai</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        input[type="tel"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        input[type="tel"]:focus {
+            border-color: #8B1F2B;
+            outline: none;
+        }
+        input[type="tel"].is-invalid {
+            border-color: #dc3545;
+            background-color: #fff5f5;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        button {
+            background: #8B1F2B;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #6E1520;
+        }
+        .test-results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Validación de Teléfono</h1>
+    
+    <div class="info">
+        <h3>Formato Requerido:</h3>
+        <p><strong>+54 9 351 123-4567</strong></p>
+        <p>El formateo automático ayuda mientras escribes. Prueba escribir solo números.</p>
+    </div>
+
+    <form id="test-form">
+        <div class="form-group">
+            <label for="telefono">Teléfono *</label>
+            <input type="tel" id="telefono" placeholder="+54 9 351 123-4567" title="Formato: +54 9 351 123-4567">
+            <div class="error-message" id="error-telefono"></div>
+        </div>
+        
+        <button type="button" onclick="testValidation()">Probar Validación</button>
+    </form>
+
+    <div class="test-results" id="results" style="display: none;">
+        <h3>Resultados:</h3>
+        <div id="test-output"></div>
+    </div>
+
+    <div class="info">
+        <h3>🧪 Casos de Prueba:</h3>
+        <ul>
+            <li><strong>✅ Código 3 dígitos:</strong> 3511234567 → +54 9 351 1234-5670</li>
+            <li><strong>✅ Código 4 dígitos:</strong> 3512527095 → +54 9 3512 527-0950</li>
+            <li><strong>✅ Con código país:</strong> 5493511234567 → +54 9 351 1234-5670</li>
+            <li><strong>✅ Buenos Aires:</strong> 1123456789 → +54 9 011 2345-6789</li>
+            <li><strong>❌ Formato incorrecto:</strong> 351-123-4567</li>
+        </ul>
+        
+        <h4>🎯 Casos Específicos de Córdoba:</h4>
+        <ul>
+            <li><strong>351</strong> (Capital): +54 9 351 XXXX-XXXX</li>
+            <li><strong>3512</strong> (Interior): +54 9 3512 XXX-XXXX</li>
+            <li><strong>3514</strong> (Interior): +54 9 3514 XXX-XXXX</li>
+        </ul>
+    </div>
+
+    <script>
+        // Regex del backend (igual que en calendar.js y main.js)
+        const TELEFONO_REGEX = /^\+54\s9\s\d{3,4}\s\d{3}-\d{4}$/;
+        
+                 // 🚀 Función de formateo mejorada - AUTOMÁTICA +54 9 y guión
+         function initPhoneFormatting() {
+             const telefonoInput = document.getElementById('telefono');
+             
+             if (telefonoInput) {
+                 // Formateo automático inteligente
+                 telefonoInput.addEventListener('input', function(e) {
+                     let value = e.target.value.replace(/\D/g, ''); // Solo números
+                     
+                     // 🚀 NUEVO: Agregar automáticamente +54 9 para cualquier entrada
+                     let formatted = '';
+                     
+                     if (value.length === 0) {
+                         // Campo vacío, no formatear
+                         e.target.value = '';
+                         return;
+                     }
+                     
+                     // Casos especiales: Si ya tiene código de país
+                     if (value.startsWith('54')) {
+                         // Ya tiene 54, procesar normalmente
+                         let numbers = value.substring(2); // Remover "54"
+                         
+                         // Asegurar que tenga el 9
+                         if (numbers && !numbers.startsWith('9')) {
+                             numbers = '9' + numbers;
+                         }
+                         
+                         // Formatear con todos los números después del 54
+                         formatted = formatArgentinePhone('54' + numbers);
+                     } else {
+                         // 💫 NUEVO: No tiene 54, agregar +54 9 automáticamente
+                         formatted = formatArgentinePhone('549' + value);
+                     }
+                     
+                     e.target.value = formatted;
+                 });
+                 
+                 // Función helper para formatear teléfonos argentinos - CORREGIDA
+                 function formatArgentinePhone(fullNumber) {
+                     // fullNumber ejemplo: "5493511234567" o "54935121234567"  
+                     if (fullNumber.length < 3) return '+54';
+                     
+                     let formatted = '+54';
+                     
+                     // Agregar el 9
+                     if (fullNumber.length > 2) {
+                         formatted += ' 9';
+                     }
+                     
+                     if (fullNumber.length <= 3) return formatted;
+                     
+                     // 🚀 NUEVA LÓGICA: Detectar código de área automáticamente
+                     const numbersAfter549 = fullNumber.substring(3);
+                     let areaCode, localNumber;
+                     
+                     // Determinar si es código de 3 o 4 dígitos basado en total de números
+                     if (numbersAfter549.length >= 10) {
+                         // 10+ dígitos después de 549: código de área de 3 dígitos + 8 dígitos locales
+                         areaCode = numbersAfter549.substring(0, 3);
+                         localNumber = numbersAfter549.substring(3);
+                     } else if (numbersAfter549.length >= 7) {
+                         // 7-9 dígitos después de 549: código de área de 4 dígitos + 7 dígitos locales  
+                         
+                         // Determinar si los primeros 3 números son un código conocido de 3 dígitos
+                         const first3 = numbersAfter549.substring(0, 3);
+                         const knownArea3Codes = ['351', '011', '221', '261', '341', '342'];
+                         
+                         if (knownArea3Codes.includes(first3) && numbersAfter549.length >= 8) {
+                             // Es código de 3 dígitos con suficientes números locales
+                             areaCode = first3;
+                             localNumber = numbersAfter549.substring(3);
+                         } else {
+                             // Asumir código de 4 dígitos
+                             areaCode = numbersAfter549.substring(0, 4);
+                             localNumber = numbersAfter549.substring(4);
+                             
+                             // 🎯 COMPLETAR con ceros si el número local es muy corto
+                             while (localNumber.length < 7 && localNumber.length > 0) {
+                                 localNumber += '0';
+                             }
+                         }
+                     } else {
+                         // Muy pocos números, usar lo que hay
+                         areaCode = numbersAfter549.substring(0, Math.min(3, numbersAfter549.length));
+                         localNumber = numbersAfter549.substring(areaCode.length);
+                     }
+                     
+                     // Formatear código de área
+                     if (areaCode) {
+                         formatted += ' ' + areaCode;
+                     }
+                     
+                     // Formatear número local
+                     if (localNumber.length > 0) {
+                         if (areaCode.length === 3) {
+                             // Código de 3 dígitos: formato XXXX-XXXX
+                             if (localNumber.length > 4) {
+                                 formatted += localNumber.substring(0, 4) + ' ' + localNumber.substring(4, 8);
+                                 if (localNumber.length > 8) {
+                                     formatted += '-' + localNumber.substring(8, 12);
+                                 }
+                             } else {
+                                 formatted += localNumber.substring(0, 4);
+                             }
+                         } else {
+                             // Código de 4 dígitos: formato XXX-XXXX  
+                             if (localNumber.length > 3) {
+                                 formatted += ' ' + localNumber.substring(0, 3);
+                                 if (localNumber.length > 3) {
+                                     formatted += '-' + localNumber.substring(3, 7);
+                                 }
+                             } else {
+                                 formatted += ' ' + localNumber;
+                             }
+                         }
+                     }
+                     
+                     return formatted;
+                 }
+                
+                // Validación en tiempo real
+                telefonoInput.addEventListener('blur', function(e) {
+                    validatePhone(e.target);
+                });
+            }
+        }
+        
+        function validatePhone(input) {
+            const isValid = TELEFONO_REGEX.test(input.value);
+            const errorDiv = document.getElementById('error-telefono');
+            
+            if (input.value && !isValid) {
+                input.classList.add('is-invalid');
+                errorDiv.textContent = 'Formato requerido: +54 9 351 123-4567';
+                errorDiv.style.display = 'block';
+                return false;
+            } else {
+                input.classList.remove('is-invalid');
+                errorDiv.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function testValidation() {
+            const input = document.getElementById('telefono');
+            const resultsDiv = document.getElementById('results');
+            const outputDiv = document.getElementById('test-output');
+            
+            const value = input.value;
+            const isValid = TELEFONO_REGEX.test(value);
+            
+            let output = `<strong>Valor ingresado:</strong> "${value}"<br>`;
+            output += `<strong>Regex usada:</strong> ${TELEFONO_REGEX}<br>`;
+            output += `<strong>Resultado:</strong> ${isValid ? '✅ VÁLIDO' : '❌ INVÁLIDO'}<br>`;
+            
+            if (!isValid && value) {
+                output += `<strong style="color: #dc3545;">Error:</strong> El formato no coincide con el requerido por el backend<br>`;
+                output += `<strong>Formato correcto:</strong> +54 9 351 123-4567`;
+            } else if (isValid) {
+                output += `<strong style="color: #28a745;">🎉 ¡Perfecto!</strong> Este formato será aceptado por el backend`;
+            }
+            
+            outputDiv.innerHTML = output;
+            resultsDiv.style.display = 'block';
+            
+            // También validar visualmente
+            validatePhone(input);
+        }
+        
+        // Inicializar cuando carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            initPhoneFormatting();
+            console.log('📱 Test de teléfono inicializado');
+        });
+        
+        // Casos de prueba rápidos
+        function quickTest(phoneNumber) {
+            document.getElementById('telefono').value = phoneNumber;
+            testValidation();
+        }
+        
+                 console.log('🧪 Funciones de prueba disponibles:');
+         console.log('quickTest("3511234567") - Código 3 dígitos');
+         console.log('quickTest("3512527095") - Código 4 dígitos (el caso problema)');
+         console.log('quickTest("1123456789") - Buenos Aires');
+         console.log('quickTest("351-123-4567") - Formato incorrecto');
+         
+         // Casos de prueba adicionales para códigos de 4 dígitos
+         window.testCases = {
+           cordoba3: () => quickTest("3511234567"),
+           cordoba4: () => quickTest("3512527095"),
+           buenosAires: () => quickTest("1123456789"),
+           rosario: () => quickTest("3412345678"),
+           mendoza: () => quickTest("2611234567"),
+           invalid: () => quickTest("351-123-4567")
+         };
+         
+         console.log('🎯 Casos rápidos: window.testCases.cordoba4() para probar el número problema');
+    </script>
+</body>
+</html> 

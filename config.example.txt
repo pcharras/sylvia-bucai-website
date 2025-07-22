@@ -3,14 +3,14 @@
 # Sylvia Bucai - Abogada y Escribana
 # =======================================
 
-# API de n8n para sistema de citas
-N8N_API_BASE_URL=https://n8n.example.com
+# API de n8n para sistema de citas - URLs REALES
+N8N_API_BASE_URL=https://cobquecura.app.n8n.cloud
 
 # Configuración del calendario
 WEEKS_TO_SHOW=2
 
 # Información de contacto
-WHATSAPP_NUMBER=5493511551011688
+WHATSAPP_NUMBER=5493515101688
 
 # Configuración de la aplicación
 APP_NAME=Sylvia Bucai - Abogada

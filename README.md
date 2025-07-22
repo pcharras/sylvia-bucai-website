@@ -63,8 +63,8 @@ Editar el archivo `.env` con los valores reales:
 
 ```env
 # Críticas (OBLIGATORIAS)
-N8N_API_BASE_URL=https://tu-n8n-instance.com
-WHATSAPP_NUMBER=5493511551011688
+N8N_API_BASE_URL=https://cobquecura.app.n8n.cloud
+WHATSAPP_NUMBER=5493515101688
 SITE_URL=https://sylviabucai.com
 CONTACT_EMAIL=sylviabucai@gmail.com
 
@@ -221,6 +221,33 @@ El sitio puede desplegarse en cualquier hosting estático:
 2. Comprobar nombres de archivo
 3. Revisar permisos de archivos
 
+## 🧪 Testing y Debugging
+
+### Testing de APIs
+1. **Archivo de testing**: Abrir `test-integration.html` en el navegador
+2. **Probar disponibilidad**: Hacer clic en "Probar Disponibilidad"
+3. **⚠️ Probar reserva**: CUIDADO - creará cita real en sistema de Sylvia
+
+### Debugging en Producción
+```javascript
+// En consola del navegador (F12)
+window.CalendarDebug.showStats();          // Ver estadísticas
+window.CalendarDebug.refresh();            // Refrescar disponibilidad
+window.CalendarDebug.getConfig();          // Ver configuración actual
+
+// Probar con datos específicos
+const testData = {
+  turnos_ocupados: [
+    { fecha: "2025-07-21", horarios: ["15:30", "17:00"] }
+  ]
+};
+window.CalendarDebug.testOccupiedSlots(testData);
+```
+
+### URLs de APIs en Funcionamiento
+- **GET Disponibilidad**: `https://cobquecura.app.n8n.cloud/webhook/turnos-silvia?fecha_inicio=YYYY-MM-DD&fecha_fin=YYYY-MM-DD`
+- **POST Reservar**: `https://cobquecura.app.n8n.cloud/webhook/turnos-silvia`
+
 ## 📝 Licencia
 
 Este proyecto fue desarrollado específicamente para Sylvia Bucai - Abogada y Escribana.
@@ -234,6 +261,7 @@ Este proyecto fue desarrollado específicamente para Sylvia Bucai - Abogada y Es
 
 ---
 
-**Versión**: 1.0.0  
+**Versión**: 1.1.0  
 **Fecha**: Julio 2025  
-**Estado**: Producción ready ✅ 
+**Estado**: APIs integradas y funcionando ✅  
+**n8n**: Conectado a Google Calendar de Sylvia ✅ 
