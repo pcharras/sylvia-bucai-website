@@ -395,6 +395,135 @@ section {
 }
 
 /* =======================================
+   SECCIÓN SUBIR DOCUMENTOS
+   ======================================= */
+
+.document-upload-container {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-medium);
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+/* File Upload Wrapper */
+.file-upload-wrapper {
+  position: relative;
+  border: 2px dashed #dee2e6;
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  text-align: center;
+  transition: var(--transition);
+  background: var(--accent-color);
+}
+
+.file-upload-wrapper:hover {
+  border-color: var(--primary-color);
+  background: rgba(139, 31, 43, 0.05);
+}
+
+.file-upload-wrapper.dragover {
+  border-color: var(--primary-color);
+  background: rgba(139, 31, 43, 0.1);
+  transform: scale(1.02);
+}
+
+.file-upload-wrapper input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.file-upload-info {
+  pointer-events: none;
+  transition: var(--transition);
+}
+
+.file-upload-wrapper:hover .file-upload-info {
+  color: var(--primary-color);
+}
+
+/* File Selected State */
+.file-selected .alert {
+  border: 1px solid rgba(139, 31, 43, 0.2);
+  background: rgba(139, 31, 43, 0.05);
+}
+
+.file-selected .file-name {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+/* Upload Progress */
+.upload-progress .progress {
+  height: 8px;
+  border-radius: 4px;
+  background: #e9ecef;
+}
+
+.upload-progress .progress-bar {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+}
+
+/* Security Info */
+.security-info .alert {
+  border: 1px solid rgba(40, 167, 69, 0.2);
+  background: rgba(40, 167, 69, 0.05);
+}
+
+.security-info .fas.fa-shield-alt {
+  font-size: 1.5rem;
+}
+
+/* Form Validation States */
+.form-control.is-valid, .form-select.is-valid {
+  border-color: #198754;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='m2.3 6.73.94-.94 1.88 1.88 3.75-3.75.94.94-4.69 4.69z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.form-control.is-invalid, .form-select.is-invalid {
+  border-color: #dc3545;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 4.6 1.4 1.4'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+/* Loading State */
+.btn.loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* =======================================
    WHATSAPP FLOTANTE
    ======================================= */
 .whatsapp-float {

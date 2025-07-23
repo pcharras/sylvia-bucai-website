@@ -49,6 +49,9 @@
                         <a class="nav-link" href="#consulta">Consulta / Turno</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#documentos">Subí tu documento</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#testimonios">Testimonios</a>
                     </li>
                     <li class="nav-item">
@@ -208,7 +211,154 @@
         </div>
     </section>
 
-    <!-- Sección 4: Testimonios -->
+    <!-- Sección 4: Subí tu documento -->
+    <section id="documentos" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="section-title text-center">Subí tu documento legal con confianza</h2>
+                    <p class="text-center text-muted mb-5">
+                        Podés enviarnos tu documento legal para avanzar con tu trámite. Nos encargaremos de recibirlo con total confidencialidad. 
+                        Recordá que aceptamos archivos PDF, JPG o PNG de hasta 10 MB.
+                    </p>
+                    
+                    <div class="document-upload-container">
+                        <form id="document-form" class="needs-validation" novalidate>
+                            <div class="row">
+                                <!-- Nombre completo -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="doc-nombre" class="form-label">
+                                        Nombre completo <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="doc-nombre" name="nombre" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingresa tu nombre completo
+                                    </div>
+                                </div>
+                                
+                                <!-- Email -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="doc-email" class="form-label">
+                                        Email <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email" class="form-control" id="doc-email" name="email" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingresa un email válido
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <!-- Teléfono -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="doc-telefono" class="form-label">
+                                        Teléfono <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="tel" class="form-control" id="doc-telefono" name="telefono" 
+                                           placeholder="3511234567 (solo números)" maxlength="12" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingresa un teléfono válido (mínimo 8 números)
+                                    </div>
+                                </div>
+                                
+                                <!-- Tipo de documento -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="doc-tipo" class="form-label">
+                                        Tipo de documento <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="doc-tipo" name="tipoDocumento" required>
+                                        <option value="">Seleccionar tipo...</option>
+                                        <option value="escritura">Escritura de propiedad</option>
+                                        <option value="contrato">Contrato de compraventa</option>
+                                        <option value="poder">Poder notarial</option>
+                                        <option value="testamento">Testamento</option>
+                                        <option value="sucesion">Documentos de sucesión</option>
+                                        <option value="hipoteca">Documentos hipotecarios</option>
+                                        <option value="cancelacion">Cancelación de hipoteca</option>
+                                        <option value="otro">Otro documento legal</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor, selecciona el tipo de documento
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Comentario -->
+                            <div class="mb-3">
+                                <label for="doc-comentario" class="form-label">
+                                    Comentario (opcional)
+                                </label>
+                                <textarea class="form-control" id="doc-comentario" name="comentario" rows="3" 
+                                          placeholder="Información adicional sobre tu documento..."></textarea>
+                            </div>
+                            
+                            <!-- Upload de archivo -->
+                            <div class="mb-4">
+                                <label for="doc-archivo" class="form-label">
+                                    Archivo <span class="text-danger">*</span>
+                                </label>
+                                <div class="file-upload-wrapper">
+                                    <input type="file" class="form-control" id="doc-archivo" name="archivo" 
+                                           accept=".pdf,.jpg,.jpeg,.png" required>
+                                    <div class="file-upload-info">
+                                        <i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i>
+                                        <p class="text-muted mb-1">
+                                            <strong>Haz clic aquí o arrastra tu archivo</strong>
+                                        </p>
+                                        <small class="text-muted">
+                                            Formatos: PDF, JPG, PNG • Máximo: 10 MB
+                                        </small>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, selecciona un archivo válido
+                                    </div>
+                                </div>
+                                <div class="file-selected mt-2" style="display: none;">
+                                    <div class="alert alert-info d-flex align-items-center">
+                                        <i class="fas fa-file-alt me-2"></i>
+                                        <span class="file-name">Archivo seleccionado</span>
+                                        <button type="button" class="btn-close ms-auto" aria-label="Remover archivo"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress bar -->
+                            <div class="upload-progress mb-3" style="display: none;">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                         role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <small class="text-muted mt-1">Subiendo documento...</small>
+                            </div>
+                            
+                            <!-- Botón de envío -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg" id="submit-document" disabled>
+                                    <i class="fas fa-upload me-2"></i>
+                                    <span class="btn-text">Enviar documento</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Información de seguridad -->
+                            <div class="security-info mt-4">
+                                <div class="alert alert-light d-flex align-items-center">
+                                    <i class="fas fa-shield-alt text-success me-3"></i>
+                                    <div>
+                                        <strong>Confidencialidad garantizada</strong><br>
+                                        <small class="text-muted">
+                                            Tu documento será recibido de forma segura y tratado con total confidencialidad profesional.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 5: Testimonios -->
     <section id="testimonios" class="py-5">
         <div class="container">
             <div class="row">
@@ -254,7 +404,7 @@
         </div>
     </section>
 
-    <!-- Sección 5: Contacto -->
+    <!-- Sección 6: Contacto -->
     <section id="contacto" class="py-5 bg-light">
         <div class="container">
             <div class="row">
@@ -354,6 +504,7 @@
     <script src="js/main.js"></script>
     <script src="js/whatsapp.js"></script>
     <script src="js/calendar.js"></script>
+    <script src="js/documents.js"></script>
     
 </body>
 </html> 

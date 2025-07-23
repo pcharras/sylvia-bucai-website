@@ -173,6 +173,24 @@ section .container {
   font-size: 1.2rem;
 }
 
+/* Documentos Mobile */
+.document-upload-container {
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.file-upload-wrapper {
+  padding: 1.5rem 1rem;
+}
+
+.file-upload-info i {
+  font-size: 1.5rem;
+}
+
+.security-info .fas.fa-shield-alt {
+  font-size: 1.2rem;
+}
+
 /* Footer Mobile */
 footer {
   text-align: center;
@@ -277,6 +295,24 @@ footer .row > div:last-child {
     font-size: 2rem;
   }
   
+  /* Documentos Tablet */
+  .document-upload-container {
+    padding: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .file-upload-wrapper {
+    padding: 2rem;
+  }
+  
+  .file-upload-info i {
+    font-size: 2rem;
+  }
+  
+  .security-info .fas.fa-shield-alt {
+    font-size: 1.4rem;
+  }
+
   /* Contacto Tablet */
   .contact-info {
     padding: 2rem;

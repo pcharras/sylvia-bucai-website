@@ -3,9 +3,9 @@
 ## Información General
 - **Nombre del proyecto**: Sitio Web Sylvia Bucai - Abogada
 - **Descripción**: Sitio web institucional para abogada independiente, orientado a clientes individuales (B2C), que transmite profesionalismo, cercanía y confianza
-- **Versión actual**: 1.1.2
+- **Versión actual**: 1.2.0
 - **Fecha de inicio**: 18 de julio de 2025
-- **Última actualización**: 22 de julio de 2025 (Simplificación validación teléfonos + fix error undefined)
+- **Última actualización**: 23 de julio de 2025 (Sistema de documentos: Implementación completa + corrección crítica de recursión infinita)
 - **Cliente**: Sylvia Bucai - Abogada y Escribana
 - **Especialidad**: Derecho inmobiliario y notarial
 
@@ -21,7 +21,8 @@ src/
 ├── js/
 │   ├── main.js           # Funcionalidad principal (validación tiempo real)
 │   ├── calendar.js       # Gestión completa de citas (envío + notificaciones)
-│   └── whatsapp.js       # Integración WhatsApp
+│   ├── whatsapp.js       # Integración WhatsApp
+│   └── documents.js      # Sistema de subida de documentos (NUEVO)
 ├── docs/
 │   ├── n8n-api-specification.md  # Documentación API completa
 │   └── nueva-regex-backend.md    # Instrucciones regex simplificada n8n
@@ -30,7 +31,8 @@ src/
 │   ├── diseño floral 2.png  # Diseño floral decorativo
 │   ├── diseño floreal.png   # Diseño floral alternativo
 │   └── images/           # Fotos profesionales (pendientes)
-├── test-integration.html  # Testing directo de APIs n8n
+├── test-integration.html  # Testing directo de APIs n8n (citas)
+├── test-documents.html   # Testing sistema de documentos (NUEVO)
 ├── .env                  # Variables de configuración (invisible por seguridad)
 ├── config.example.txt    # Template configuración con URLs reales
 ├── project_context.md    # Este archivo
@@ -168,11 +170,22 @@ src/
 - **Integración**: n8n + Google Calendar
 - **Precio**: Pendiente de confirmación
 
-### 4. Testimonios
+### 4. Subí tu documento - **NUEVA SECCIÓN** ✅
+- **Contenido**: Formulario completo de subida de documentos legales
+- **Funcionalidades**: 
+  - Upload drag & drop de archivos (PDF, JPG, PNG hasta 10MB)
+  - Validación completa: nombre, email, teléfono, tipo documento
+  - Progress bar y estados de carga elegantes
+  - Información de seguridad y confidencialidad
+- **Integración**: n8n cloud para almacenamiento automático en Google Drive
+- **Tipos soportados**: Escritura, contrato, poder, testamento, sucesión, hipoteca, otros
+- **Backend**: Procesamiento automático y notificación por email a Sylvia
+
+### 5. Testimonios
 - **Contenido**: 3 testimonios confirmados de clientes
 - **Propósito**: Generar confianza y credibilidad
 
-### 5. Contacto
+### 6. Contacto
 - **Contenido**: Datos completos, mapa Google Maps embed
 - **Información**: Emails, WhatsApp, horarios, ubicación
 
@@ -213,12 +226,15 @@ src/
 - **Backend**: Misma regex `/^\d{10,12}$/` para consistencia total
 - **Resultado**: Sin falsos negativos, sin errores de formato
 
-### Notificaciones de Usuario ✅
-- **Funciones implementadas**: `showSuccessMessage()` y `showErrorMessage()`
+### Notificaciones de Usuario ✅ - **MEJORADO**
+- **Funciones citas**: `showSuccessMessage()` y `showErrorMessage()` (calendar.js)
+- **Funciones documentos**: `showDocumentSuccessMessage()` y `showDocumentErrorMessage()` (documents.js)
+- **Solución recursión**: Nombres únicos para evitar conflictos de scope global
 - **Estilo**: Notificaciones flotantes Bootstrap en esquina superior derecha
 - **Auto-remove**: Éxito 5s, Error 7s
 - **Z-index**: 9999 para aparecer sobre todo contenido
 - **Responsive**: Max-width 400px para móviles
+- **Fallback inteligente**: Implementación directa cuando funciones globales no disponibles
 
 ### Arquitectura de Envío de Formularios ✅
 - **Responsabilidad única**: `calendar.js` maneja envío completo
@@ -239,6 +255,15 @@ src/
 - **Método**: POST con payload completo
 - **Validación backend**: Regex `/^\d{10,12}$/` para teléfono
 - **Respuesta**: `{ success: "true", message: "...", appointmentId: "..." }`
+
+### API de Documentos (n8n) ✅ - **NUEVA**
+- **URL**: `https://cobquecura.app.n8n.cloud/webhook/subir-documento`
+- **Método**: POST con `multipart/form-data`
+- **Payload**: `{nombre, email, telefono, tipoDocumento, comentario, archivo}`
+- **Validación backend**: Regex `/^\d{10,12}$/` para teléfono, validación de archivo
+- **Respuesta éxito**: `{ success: true, message: "...", archivo: "nombre-final.pdf" }`
+- **Respuesta error**: `{ success: false, error: "mensaje específico" }`
+- **Procesamiento**: Almacenamiento en Google Drive + notificación email automática
 
 ### WhatsApp Integration ✅
 - **Número**: `+5493515101688` (actualizado)
@@ -263,32 +288,42 @@ hideLoadingState(element);
 
 ### Debugging y Testing ✅
 ```javascript
-// Funciones públicas para debugging
-window.CalendarDebug.showStats();
-window.CalendarDebug.refresh();
+// Funciones públicas para debugging - EXTENDIDO
+window.CalendarDebug.showStats();           // Estadísticas de citas
+window.CalendarDebug.refresh();             // Refrescar disponibilidad
+window.CalendarDebug.documents.validateForm(); // Validar formulario documentos
+window.CalendarDebug.documents.selectedFile(); // Ver archivo seleccionado
+window.CalendarDebug.documents.resetForm();    // Reset formulario documentos
+window.CalendarDebug.documents.config;      // Configuración documentos
 ```
 
 ## Estado del Proyecto
 
 ### ✅ Completado y Funcionando
-- [x] **Estructura HTML completa** con 5 secciones
+- [x] **Estructura HTML completa** con 6 secciones (incluye documentos)
 - [x] **Diseño responsive** mobile-first con Bootstrap 5
 - [x] **Sistema de citas integrado** con n8n cloud
+- [x] **📄 Sistema de documentos completo** con upload drag & drop funcional
 - [x] **Validación de teléfono simplificada** sin errores
-- [x] **Notificaciones de usuario** elegantes y funcionales
+- [x] **Notificaciones de usuario** elegantes y sin conflictos de recursión
 - [x] **WhatsApp integration** con mensajes personalizados
 - [x] **Documentación técnica** completa para backend
+- [x] **Testing integral** con páginas de prueba dedicadas
 
-### 🔄 Tareas Completadas Recientemente (22/07/2025)
-- [x] **Simplificación validación teléfono**: Eliminada complejidad innecesaria
-- [x] **Fix error "undefined"**: Resuelto conflicto de event listeners
-- [x] **Implementación notificaciones**: Funciones faltantes agregadas
-- [x] **Documentación backend**: `docs/nueva-regex-backend.md` creado
-- [x] **Testing y debugging**: Múltiples correcciones de UX
+### 🔄 Tareas Completadas Recientemente (23/07/2025)
+- [x] **📄 Sistema completo de documentos**: Nueva sección "Subí tu documento" implementada
+- [x] **🔧 Drag & drop funcional**: Upload de archivos PDF/JPG/PNG hasta 10MB
+- [x] **🎯 Validaciones tiempo real**: Formulario con feedback visual elegante
+- [x] **🚨 CRÍTICO RESUELTO**: Error de recursión infinita en notificaciones corregido
+- [x] **✅ Funciones renombradas**: `showDocumentSuccessMessage()` y `showDocumentErrorMessage()` sin conflictos
+- [x] **🧪 Testing completo**: `test-documents.html` con 4 niveles de testing funcional
+- [x] **📚 Documentación actualizada**: README, changelog y context actualizados
+- [x] **🔗 Integración n8n**: Endpoint `/webhook/subir-documento` completamente funcional
 
 ### 📋 Pendientes
 - [ ] **Imágenes reales**: Reemplazar placeholders con fotos de Sylvia
 - [ ] **Contenido específico**: Ajustar textos según preferencias finales
+- [ ] **Testing producción**: Validar sistema de documentos en entorno real
 - [ ] **SSL Certificate**: Configurar para producción
 - [ ] **Google Analytics**: Implementar tracking básico
 - [ ] **SEO Optimization**: Meta tags y estructura semántica
@@ -296,5 +331,7 @@ window.CalendarDebug.refresh();
 ### 🚨 Notas Importantes
 - **Archivo .env**: Existe pero invisible por seguridad [[memory:3905156]]
 - **URLs n8n**: Configuradas con endpoints reales y funcionando
-- **Testing**: `test-integration.html` disponible para validar APIs
-- **Backup**: Event listeners antiguos comentados por si se necesitan 
+- **Testing**: `test-integration.html` (citas) y `test-documents.html` (documentos) disponibles
+- **🔧 Bug crítico resuelto**: Error de recursión infinita en documentos solucionado (23/07/2025)
+- **Funciones únicas**: Notificaciones con nombres específicos para evitar conflictos
+- **Estabilidad**: Sistema de documentos 100% funcional después de corrección 

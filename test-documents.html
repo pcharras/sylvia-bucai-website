@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Test - Subir Documentos | Sylvia Bucai</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Lato', sans-serif;
+            padding: 2rem 0;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            color: #8B1F2B;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            color: #6E4B7F;
+            font-family: 'Playfair Display', serif;
+            border-bottom: 2px solid #8B1F2B;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .result.success {
+            background: #d1edff;
+            border-color: #0d6efd;
+            color: #0d6efd;
+        }
+        
+        .result.error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        
+        button {
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .api-info {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        code {
+            background: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Integración - Sistema de Documentos</h1>
+    <p><strong>Endpoint de Testing:</strong></p>
+    <ul>
+        <li><strong>POST:</strong> https://cobquecura.app.n8n.cloud/webhook/subir-documento</li>
+    </ul>
+
+    <!-- TEST 1: Validación de archivos -->
+    <div class="container">
+        <h2>🔍 Test 1: Validación de Archivos</h2>
+        <p>Probar las validaciones del frontend sin enviar al servidor.</p>
+        
+        <div class="api-info">
+            <strong>Validaciones implementadas:</strong>
+            <ul>
+                <li>Tamaño máximo: 10 MB</li>
+                <li>Formatos: PDF, JPG, JPEG, PNG</li>
+                <li>Validación MIME type y extensión</li>
+            </ul>
+        </div>
+        
+        <label>Seleccionar archivo de prueba:</label>
+        <input type="file" id="test-file" class="form-control mb-3" accept=".pdf,.jpg,.jpeg,.png">
+        
+        <button id="test-validation" class="btn btn-primary">Validar Archivo Seleccionado</button>
+        <button id="test-large-file" class="btn btn-warning">Simular Archivo Grande (+10MB)</button>
+        <button id="test-invalid-type" class="btn btn-warning">Simular Tipo Inválido</button>
+        
+        <div id="result-validation" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- TEST 2: Formulario completo -->
+    <div class="container">
+        <h2>📝 Test 2: Formulario Completo (Frontend)</h2>
+        <p>Probar validaciones y UI del formulario sin enviar datos reales.</p>
+        
+        <form id="test-form" class="needs-validation" novalidate>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="test-nombre" class="form-label">Nombre completo *</label>
+                    <input type="text" class="form-control" id="test-nombre" value="Usuario de Prueba" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="test-email" class="form-label">Email *</label>
+                    <input type="email" class="form-control" id="test-email" value="test@example.com" required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="test-telefono" class="form-label">Teléfono *</label>
+                    <input type="tel" class="form-control" id="test-telefono" value="3510000000" 
+                           placeholder="3511234567 (solo números)" maxlength="12" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="test-tipo" class="form-label">Tipo de documento *</label>
+                    <select class="form-select" id="test-tipo" required>
+                        <option value="">Seleccionar tipo...</option>
+                        <option value="test" selected>Documento de prueba</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="test-comentario" class="form-label">Comentario</label>
+                <textarea class="form-control" id="test-comentario" rows="3">Este es un test del sistema de documentos. Por favor ignorar.</textarea>
+            </div>
+            
+            <button type="button" id="test-form-validation" class="btn btn-success">Validar Formulario</button>
+            <button type="button" id="test-form-reset" class="btn btn-secondary">Reset Formulario</button>
+        </form>
+        
+        <div id="result-form" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- TEST 3: Envío real (CUIDADO) -->
+    <div class="container">
+        <h2>📤 Test 3: Envío Real al Servidor</h2>
+        <p><strong>⚠️ CUIDADO:</strong> Esto enviará un documento real al sistema de Sylvia.</p>
+        
+        <div class="alert alert-warning">
+            <strong>Nota importante:</strong> Solo usar este test con archivos pequeños y marcados claramente como "PRUEBA". 
+            Los documentos se almacenarán en Google Drive y Sylvia recibirá una notificación.
+        </div>
+        
+        <label>Archivo de prueba (PDF/IMG pequeño):</label>
+        <input type="file" id="real-test-file" class="form-control mb-3" accept=".pdf,.jpg,.jpeg,.png">
+        
+        <label>Nombre del remitente:</label>
+        <input type="text" id="real-test-nombre" class="form-control mb-3" value="TEST - Usuario de Prueba" placeholder="Nombre completo">
+        
+        <label>Email:</label>
+        <input type="email" id="real-test-email" class="form-control mb-3" value="test@example.com" placeholder="Email válido">
+        
+        <label>Teléfono:</label>
+        <input type="tel" id="real-test-telefono" class="form-control mb-3" value="3510000000" 
+               placeholder="3511234567 (solo números)" maxlength="12">
+        
+        <label>Tipo de documento:</label>
+        <select id="real-test-tipo" class="form-select mb-3">
+            <option value="test">DOCUMENTO DE PRUEBA - IGNORAR</option>
+        </select>
+        
+        <button id="test-real-upload" class="btn btn-danger">⚠️ Enviar Test Real (SOLO PARA DESARROLLO)</button>
+        
+        <div id="result-real" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- TEST 4: Debugging -->
+    <div class="container">
+        <h2>🔧 Test 4: Debugging y Configuración</h2>
+        <p>Probar las funciones de debugging integradas.</p>
+        
+        <button id="test-debug-config" class="btn btn-info">Mostrar Configuración</button>
+        <button id="test-debug-calendar" class="btn btn-info">Probar CalendarDebug.documents</button>
+        <button id="test-debug-functions" class="btn btn-info">Ver Funciones Disponibles</button>
+        
+        <div id="result-debug" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Información de debugging -->
+    <div class="container">
+        <h2>📊 Información del Sistema</h2>
+        <div id="system-info">
+            <p><strong>Estado:</strong> <span id="status">Cargando...</span></p>
+            <p><strong>Endpoint:</strong> <code id="endpoint">-</code></p>
+            <p><strong>Debugging disponible:</strong> <span id="debug-available">-</span></p>
+            <p><strong>Funciones notificación:</strong> <span id="notification-functions">-</span></p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/documents.js"></script>
+    
+    <script>
+        // =======================================
+        // INICIALIZACIÓN DE TESTS
+        // =======================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Inicializando tests de documentos');
+            
+            // Esperar a que el sistema esté cargado
+            setTimeout(() => {
+                updateSystemInfo();
+                setupTests();
+            }, 1000);
+        });
+
+        function updateSystemInfo() {
+            document.getElementById('status').textContent = 'Sistema cargado ✅';
+            document.getElementById('endpoint').textContent = 'https://cobquecura.app.n8n.cloud/webhook/subir-documento';
+            
+            // Verificar debugging
+            if (typeof window.CalendarDebug !== 'undefined' && window.CalendarDebug.documents) {
+                document.getElementById('debug-available').textContent = 'CalendarDebug.documents ✅';
+            } else if (typeof window.DocumentsDebug !== 'undefined') {
+                document.getElementById('debug-available').textContent = 'DocumentsDebug ✅';
+            } else {
+                document.getElementById('debug-available').textContent = 'No disponible ❌';
+            }
+            
+            // Verificar funciones de notificación
+            if (typeof window.showSuccessMessage === 'function' && typeof window.showErrorMessage === 'function') {
+                document.getElementById('notification-functions').textContent = 'Disponibles ✅';
+            } else {
+                document.getElementById('notification-functions').textContent = 'Usando fallback ⚠️';
+            }
+        }
+
+        function setupTests() {
+            // Test 1: Validación de archivos
+            document.getElementById('test-validation').addEventListener('click', testFileValidation);
+            document.getElementById('test-large-file').addEventListener('click', () => testMockFile('large'));
+            document.getElementById('test-invalid-type').addEventListener('click', () => testMockFile('invalid'));
+            
+            // Test 2: Formulario
+            document.getElementById('test-form-validation').addEventListener('click', testFormValidation);
+            document.getElementById('test-form-reset').addEventListener('click', testFormReset);
+            
+            // Test 3: Envío real
+            document.getElementById('test-real-upload').addEventListener('click', testRealUpload);
+            
+            // Test 4: Debugging
+            document.getElementById('test-debug-config').addEventListener('click', testDebugConfig);
+            document.getElementById('test-debug-calendar').addEventListener('click', testDebugCalendar);
+            document.getElementById('test-debug-functions').addEventListener('click', testDebugFunctions);
+        }
+
+        // =======================================
+        // TEST 1: VALIDACIÓN DE ARCHIVOS
+        // =======================================
+        function testFileValidation() {
+            const fileInput = document.getElementById('test-file');
+            const result = document.getElementById('result-validation');
+            
+            if (!fileInput.files.length) {
+                showResult(result, 'error', 'No se seleccionó ningún archivo');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const maxSize = 10 * 1024 * 1024; // 10 MB
+            const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+            const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png'];
+            
+            let validationResult = {
+                fileName: file.name,
+                fileSize: formatFileSize(file.size),
+                fileType: file.type,
+                sizeValid: file.size <= maxSize,
+                typeValid: allowedTypes.includes(file.type),
+                extensionValid: allowedExtensions.includes('.' + file.name.split('.').pop().toLowerCase())
+            };
+            
+            const isValid = validationResult.sizeValid && validationResult.typeValid && validationResult.extensionValid;
+            
+            const message = `
+Archivo: ${validationResult.fileName}
+Tamaño: ${validationResult.fileSize} ${validationResult.sizeValid ? '✅' : '❌ (Máximo 10 MB)'}
+Tipo MIME: ${validationResult.fileType} ${validationResult.typeValid ? '✅' : '❌'}
+Extensión: ${validationResult.extensionValid ? '✅' : '❌'}
+
+Resultado: ${isValid ? 'VÁLIDO ✅' : 'INVÁLIDO ❌'}`;
+            
+            showResult(result, isValid ? 'success' : 'error', message);
+        }
+
+        function testMockFile(type) {
+            const result = document.getElementById('result-validation');
+            
+            if (type === 'large') {
+                const mockFile = {
+                    name: 'documento-grande.pdf',
+                    size: 15 * 1024 * 1024, // 15 MB
+                    type: 'application/pdf'
+                };
+                
+                const message = `
+SIMULACIÓN: Archivo grande
+Archivo: ${mockFile.name}
+Tamaño: ${formatFileSize(mockFile.size)} ❌ (Máximo 10 MB)
+Tipo MIME: ${mockFile.type} ✅
+
+Resultado: INVÁLIDO ❌ - Archivo muy grande`;
+                
+                showResult(result, 'error', message);
+                
+            } else if (type === 'invalid') {
+                const mockFile = {
+                    name: 'documento.docx',
+                    size: 2 * 1024 * 1024, // 2 MB
+                    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                };
+                
+                const message = `
+SIMULACIÓN: Tipo inválido
+Archivo: ${mockFile.name}
+Tamaño: ${formatFileSize(mockFile.size)} ✅
+Tipo MIME: ${mockFile.type} ❌ (Solo PDF, JPG, PNG)
+
+Resultado: INVÁLIDO ❌ - Formato no permitido`;
+                
+                showResult(result, 'error', message);
+            }
+        }
+
+        // =======================================
+        // TEST 2: FORMULARIO
+        // =======================================
+        function testFormValidation() {
+            const result = document.getElementById('result-form');
+            
+            // Simular validación
+            const fields = {
+                nombre: document.getElementById('test-nombre').value,
+                email: document.getElementById('test-email').value,
+                telefono: document.getElementById('test-telefono').value,
+                tipo: document.getElementById('test-tipo').value
+            };
+            
+            const validation = {
+                nombre: fields.nombre.trim().length >= 2,
+                email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email),
+                telefono: /^\d{8,12}$/.test(fields.telefono.replace(/\D/g, '')),
+                tipo: fields.tipo !== ''
+            };
+            
+            const allValid = Object.values(validation).every(v => v);
+            
+            const message = `
+Validación de campos:
+- Nombre: ${fields.nombre} ${validation.nombre ? '✅' : '❌'}
+- Email: ${fields.email} ${validation.email ? '✅' : '❌'}
+- Teléfono: ${fields.telefono} ${validation.telefono ? '✅' : '❌'}
+- Tipo: ${fields.tipo} ${validation.tipo ? '✅' : '❌'}
+
+Resultado: ${allValid ? 'FORMULARIO VÁLIDO ✅' : 'FORMULARIO INVÁLIDO ❌'}`;
+            
+            showResult(result, allValid ? 'success' : 'error', message);
+        }
+
+        function testFormReset() {
+            const result = document.getElementById('result-form');
+            
+            // Reset campos
+            document.getElementById('test-nombre').value = '';
+            document.getElementById('test-email').value = '';
+            document.getElementById('test-telefono').value = '';
+            document.getElementById('test-tipo').value = '';
+            document.getElementById('test-comentario').value = '';
+            
+            showResult(result, 'success', 'Formulario reseteado ✅');
+        }
+
+        // =======================================
+        // TEST 3: ENVÍO REAL
+        // =======================================
+        async function testRealUpload() {
+            const result = document.getElementById('result-real');
+            const fileInput = document.getElementById('real-test-file');
+            
+            if (!fileInput.files.length) {
+                showResult(result, 'error', 'No se seleccionó ningún archivo');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('nombre', document.getElementById('real-test-nombre').value);
+            formData.append('email', document.getElementById('real-test-email').value);
+            formData.append('telefono', document.getElementById('real-test-telefono').value);
+            formData.append('tipoDocumento', document.getElementById('real-test-tipo').value);
+            formData.append('comentario', 'TEST AUTOMÁTICO - Este es un test del sistema. Favor ignorar este documento.');
+            formData.append('archivo', fileInput.files[0]);
+            
+            showResult(result, 'success', 'Enviando documento de prueba...');
+            
+            try {
+                const response = await fetch('https://cobquecura.app.n8n.cloud/webhook/subir-documento', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const message = `
+✅ ENVÍO EXITOSO
+
+Respuesta del servidor:
+${JSON.stringify(data, null, 2)}
+
+El documento fue recibido correctamente por n8n.`;
+                    showResult(result, 'success', message);
+                } else {
+                    const message = `
+❌ ERROR DEL SERVIDOR
+
+Respuesta:
+${JSON.stringify(data, null, 2)}`;
+                    showResult(result, 'error', message);
+                }
+                
+            } catch (error) {
+                const message = `
+❌ ERROR DE CONEXIÓN
+
+Error: ${error.message}
+Stack: ${error.stack}`;
+                showResult(result, 'error', message);
+            }
+        }
+
+        // =======================================
+        // TEST 4: DEBUGGING
+        // =======================================
+        function testDebugConfig() {
+            const result = document.getElementById('result-debug');
+            
+            let config = {};
+            
+            if (typeof window.CalendarDebug !== 'undefined' && window.CalendarDebug.documents) {
+                config = window.CalendarDebug.documents.config;
+            } else if (typeof window.DocumentsDebug !== 'undefined') {
+                config = window.DocumentsDebug.config;
+            } else {
+                showResult(result, 'error', 'No hay sistema de debugging disponible');
+                return;
+            }
+            
+            const message = `
+Configuración del sistema de documentos:
+${JSON.stringify(config, null, 2)}`;
+            
+            showResult(result, 'success', message);
+        }
+
+        function testDebugCalendar() {
+            const result = document.getElementById('result-debug');
+            
+            if (typeof window.CalendarDebug !== 'undefined' && window.CalendarDebug.documents) {
+                const functions = Object.keys(window.CalendarDebug.documents);
+                const message = `
+CalendarDebug.documents disponible ✅
+
+Funciones disponibles:
+${functions.map(f => `- ${f}`).join('\n')}
+
+Ejemplo de uso:
+window.CalendarDebug.documents.validateForm()
+window.CalendarDebug.documents.selectedFile()
+window.CalendarDebug.documents.resetForm()`;
+                
+                showResult(result, 'success', message);
+            } else {
+                showResult(result, 'error', 'CalendarDebug.documents no está disponible');
+            }
+        }
+
+        function testDebugFunctions() {
+            const result = document.getElementById('result-debug');
+            
+            const functions = {
+                showSuccessMessage: typeof window.showSuccessMessage === 'function',
+                showErrorMessage: typeof window.showErrorMessage === 'function',
+                CalendarDebug: typeof window.CalendarDebug !== 'undefined',
+                DocumentsDebug: typeof window.DocumentsDebug !== 'undefined'
+            };
+            
+            const message = `
+Estado de funciones del sistema:
+
+Notificaciones:
+- showSuccessMessage: ${functions.showSuccessMessage ? '✅' : '❌'}
+- showErrorMessage: ${functions.showErrorMessage ? '✅' : '❌'}
+
+Debugging:
+- CalendarDebug: ${functions.CalendarDebug ? '✅' : '❌'}
+- DocumentsDebug: ${functions.DocumentsDebug ? '✅' : '❌'}`;
+            
+            showResult(result, 'success', message);
+        }
+
+        // =======================================
+        // UTILIDADES
+        // =======================================
+        function showResult(element, type, message) {
+            element.textContent = message;
+            element.className = `result ${type}`;
+            element.style.display = 'block';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        console.log('🧪 Tests de documentos cargados');
+    </script>
+</body>
+</html> 

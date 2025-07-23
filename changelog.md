@@ -8,6 +8,46 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ## [Unreleased]
 
 ### Added
+- **📄 NUEVA FUNCIONALIDAD**: Sistema completo de subida de documentos legales
+- Nueva sección "Subí tu documento" integrada al sitio web principal
+- Formulario completo con validaciones en tiempo real (nombre, email, teléfono, tipo documento)
+- Sistema de drag & drop para subida de archivos (PDF, JPG, PNG hasta 10MB)
+- Integración total con n8n cloud para procesamiento automático de documentos
+- Validaciones de archivo: tamaño, formato, tipo MIME y extensión
+- Progress bar animada durante la subida del documento
+- Estados de carga elegantes con spinner y feedback visual
+- Página de testing `test-documents.html` siguiendo convenciones del proyecto
+- Debugging extendido: `CalendarDebug.documents` con funciones específicas
+- Estilos responsive completos para mobile, tablet y desktop
+- Notificaciones de éxito/error usando funciones existentes del sitio
+- Información de seguridad y confidencialidad para usuarios
+- Manejo robusto de errores con mensajes específicos del backend
+
+### Changed
+- Navegación principal actualizada con nueva sección "Subí tu documento"
+- Array de secciones en `main.js` expandido para incluir nueva sección
+- Numeración de secciones actualizada (Testimonios ahora es sección 5, Contacto sección 6)
+- Sistema de debugging extendido para incluir funcionalidades de documentos
+- Convenciones de validación de teléfono aplicadas consistentemente (regex `/^\d{8,12}$/`)
+
+### Fixed
+- **🚨 CRÍTICO**: Corregido error de recursión infinita en sistema de documentos (RangeError: Maximum call stack size exceeded)
+- **🔧 Funciones renombradas**: `showDocumentSuccessMessage()` y `showDocumentErrorMessage()` para evitar conflictos de nombres
+- **💡 Fallback mejorado**: Implementación directa de notificaciones elegantes cuando funciones globales no están disponibles
+- **🧹 Stack overflow eliminado**: Error de llamadas recursivas infinitas completamente resuelto
+- **✅ Estabilidad**: Sistema de documentos ahora 100% funcional y estable
+
+### Technical Details
+- **Endpoint n8n**: `https://cobquecura.app.n8n.cloud/webhook/subir-documento`
+- **Validación teléfono**: Consistente con sistema existente (solo números, 8-12 dígitos)
+- **Notificaciones**: Funciones únicas `showDocumentSuccessMessage()` y `showDocumentErrorMessage()` sin conflictos
+- **Testing**: `test-documents.html` con 4 niveles de testing (validación, formulario, envío real, debugging)
+- **Responsive**: Estilos específicos para mobile (1.5rem padding) y tablet (2rem padding)
+- **Debugging**: Integrado como `window.CalendarDebug.documents.*` o fallback independiente
+
+## [1.2.0] - 2025-07-23
+
+### Added
 - Sistema mejorado de procesamiento de disponibilidad en frontend
 - Funciones de debugging y testing para el sistema de citas (`CalendarDebug`)
 - Nueva especificación técnica para API n8n (`docs/n8n-api-specification.md`)

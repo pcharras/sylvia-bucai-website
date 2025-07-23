@@ -9,7 +9,7 @@
 // =======================================
 let isScrolling = false;
 let currentSection = '';
-const sections = ['inicio', 'sobre-mi', 'consulta', 'testimonios', 'contacto'];
+const sections = ['inicio', 'sobre-mi', 'consulta', 'documentos', 'testimonios', 'contacto'];
 
 // =======================================
 // INICIALIZACIÓN

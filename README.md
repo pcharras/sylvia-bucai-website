@@ -7,6 +7,7 @@ Sitio web institucional para abogada independiente, orientado a clientes B2C, de
 - **SPA (Single Page Application)** con navegación suave
 - **Responsive Design** con enfoque mobile-first
 - **Sistema de citas** integrado con n8n
+- **📄 Sistema de documentos** con upload drag & drop (NUEVO)
 - **Botón flotante de WhatsApp** con mensajes contextuales
 - **Optimización SEO** para búsquedas locales
 - **Google Maps** embebido para ubicación
@@ -19,8 +20,9 @@ Sitio web institucional para abogada independiente, orientado a clientes B2C, de
 1. **Inicio** - Hero con información principal y CTAs
 2. **Sobre mí** - Experiencia profesional y horarios
 3. **Consulta / Turno** - Sistema de citas con calendario
-4. **Testimonios** - Opiniones de clientes
-5. **Contacto** - Información completa y mapa
+4. **📄 Subí tu documento** - Sistema de upload de documentos legales (NUEVO)
+5. **Testimonios** - Opiniones de clientes
+6. **Contacto** - Información completa y mapa
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -106,6 +108,18 @@ Crear los siguientes workflows en n8n:
 }
 ```
 
+#### 📄 Endpoint POST `/api/subir-documento` (NUEVO)
+```json
+{
+  "nombre": "string",
+  "email": "string", 
+  "telefono": "string",
+  "tipoDocumento": "string",
+  "comentario": "string",
+  "archivo": "File (PDF/JPG/PNG, máx 10MB)"
+}
+```
+
 ## 📱 Funcionalidades WhatsApp
 
 ### Mensajes Predefinidos
@@ -129,16 +143,19 @@ src/
 ├── js/
 │   ├── main.js              # Funcionalidad principal
 │   ├── whatsapp.js          # Integración WhatsApp
-│   └── calendar.js          # Sistema de citas
+│   ├── calendar.js          # Sistema de citas
+│   └── documents.js         # Sistema de documentos (NUEVO)
 ├── assets/
 │   ├── images/              # Fotos profesionales
 │   ├── logo 3.png           # Logo oficial
 │   ├── diseño floral 2.png  # Decoración floral
 │   └── diseño floreal.png   # Decoración alternativa
-├── config.example.txt        # Plantilla de configuración
-├── project_context.md       # Contexto del proyecto
-├── changelog.md            # Registro de cambios
-└── README.md               # Este archivo
+├── test-integration.html     # Testing sistema de citas
+├── test-documents.html      # Testing sistema de documentos (NUEVO)
+├── config.example.txt       # Plantilla de configuración
+├── project_context.md      # Contexto del proyecto
+├── changelog.md           # Registro de cambios
+└── README.md              # Este archivo
 ```
 
 ## 🌐 Despliegue
@@ -224,16 +241,23 @@ El sitio puede desplegarse en cualquier hosting estático:
 ## 🧪 Testing y Debugging
 
 ### Testing de APIs
-1. **Archivo de testing**: Abrir `test-integration.html` en el navegador
-2. **Probar disponibilidad**: Hacer clic en "Probar Disponibilidad"
-3. **⚠️ Probar reserva**: CUIDADO - creará cita real en sistema de Sylvia
+1. **Testing de citas**: Abrir `test-integration.html` en el navegador
+2. **📄 Testing de documentos**: Abrir `test-documents.html` en el navegador (NUEVO)
+3. **Probar disponibilidad**: Hacer clic en "Probar Disponibilidad"
+4. **⚠️ Probar reserva/documentos**: CUIDADO - creará cita/documento real en sistema de Sylvia
 
 ### Debugging en Producción
 ```javascript
 // En consola del navegador (F12)
-window.CalendarDebug.showStats();          // Ver estadísticas
-window.CalendarDebug.refresh();            // Refrescar disponibilidad
-window.CalendarDebug.getConfig();          // Ver configuración actual
+window.CalendarDebug.showStats();              // Ver estadísticas de citas
+window.CalendarDebug.refresh();                // Refrescar disponibilidad
+window.CalendarDebug.getConfig();              // Ver configuración actual
+
+// 📄 NUEVO - Debugging de documentos
+window.CalendarDebug.documents.validateForm(); // Validar formulario documentos
+window.CalendarDebug.documents.selectedFile(); // Ver archivo seleccionado
+window.CalendarDebug.documents.resetForm();    // Reset formulario documentos
+window.CalendarDebug.documents.config;         // Ver configuración documentos
 
 // Probar con datos específicos
 const testData = {
@@ -247,6 +271,7 @@ window.CalendarDebug.testOccupiedSlots(testData);
 ### URLs de APIs en Funcionamiento
 - **GET Disponibilidad**: `https://cobquecura.app.n8n.cloud/webhook/turnos-silvia?fecha_inicio=YYYY-MM-DD&fecha_fin=YYYY-MM-DD`
 - **POST Reservar**: `https://cobquecura.app.n8n.cloud/webhook/turnos-silvia`
+- **📄 POST Documentos**: `https://cobquecura.app.n8n.cloud/webhook/subir-documento` (NUEVO)
 
 ## 📝 Licencia
 
@@ -261,7 +286,8 @@ Este proyecto fue desarrollado específicamente para Sylvia Bucai - Abogada y Es
 
 ---
 
-**Versión**: 1.1.0  
+**Versión**: 1.2.0  
 **Fecha**: Julio 2025  
 **Estado**: APIs integradas y funcionando ✅  
-**n8n**: Conectado a Google Calendar de Sylvia ✅ 
+**n8n**: Conectado a Google Calendar + Google Drive de Sylvia ✅  
+**📄 NUEVO**: Sistema de documentos completamente funcional ✅ 
