@@ -23,6 +23,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Información de seguridad y confidencialidad para usuarios
 - Manejo robusto de errores con mensajes específicos del backend
 
+### Deployed
+- **🚀 DESPLIEGUE EN PRODUCCIÓN**: Sitio web desplegado exitosamente en servidor Digital Ocean
+- **🌐 URL activa**: `https://giasynaptia.com/sylviabucai` - Completamente funcional
+- **⚙️ Configuración servidor**: Nginx con SSL habilitado y permisos correctos
+- **🔧 Método despliegue**: Git clone directo desde GitHub al servidor
+- **📁 Estructura**: Archivos organizados correctamente en `/var/www/giasynaptia.com/public_html/sylviabucai`
+- **✅ Estado**: Sitio listo para revisión del cliente (Sylvia Bucai)
+- **🧪 Testing pendiente**: APIs n8n, sistema de documentos, WhatsApp integration en entorno de producción
+
 ### Changed
 - Navegación principal actualizada con nueva sección "Subí tu documento"
 - Array de secciones en `main.js` expandido para incluir nueva sección
@@ -44,6 +53,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **Testing**: `test-documents.html` con 4 niveles de testing (validación, formulario, envío real, debugging)
 - **Responsive**: Estilos específicos para mobile (1.5rem padding) y tablet (2rem padding)
 - **Debugging**: Integrado como `window.CalendarDebug.documents.*` o fallback independiente
+- **🌐 Despliegue**: Digital Ocean + Nginx + Git deployment pipeline establecido
 
 ## [1.2.0] - 2025-07-23
 
