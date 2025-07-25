@@ -38,7 +38,7 @@
 
 /* Logo Mobile */
 .navbar-brand .logo {
-  height: 110px;
+  height: 66px;
 }
 
 /* Decoración Floral Mobile */
@@ -216,7 +216,7 @@ footer .row > div:last-child {
   
   /* Navegación Tablet */
   .navbar-brand .logo {
-    height: 120px;
+    height: 94px;
   }
   
   /* Hero Section Tablet */
@@ -365,11 +365,11 @@ footer .row > div:last-child {
   
   /* Navegación Desktop */
   .navbar {
-    padding: 1.5rem 0;
+    padding: 0.05rem 0;
   }
   
   .navbar-brand .logo {
-    height: 140px;
+    height: 110px;
   }
   
   .navbar-nav .nav-link {
