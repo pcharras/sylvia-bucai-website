@@ -41,12 +41,6 @@
   height: 66px;
 }
 
-/* Decoración Floral Mobile */
-.floral-decoration {
-  display: block;
-  width: 150px;
-  opacity: 0.6;
-}
 
 /* Hero Section Mobile */
 .hero-section {
@@ -67,6 +61,10 @@
 .hero-section h2 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  margin-top: 150px;
 }
 
 .hero-section .lead {
@@ -233,6 +231,10 @@ footer .row > div:last-child {
     font-size: 1.8rem;
   }
   
+  .hero-subtitle {
+    margin-top: 180px;
+  }
+  
   .hero-section .lead {
     font-size: 1.3rem;
   }
@@ -243,12 +245,6 @@ footer .row > div:last-child {
     margin-bottom: 1rem;
   }
   
-  /* Decoración Floral Tablet */
-  .floral-decoration {
-    display: block;
-    width: 200px;
-    opacity: 0.55;
-  }
   
   /* Títulos Tablet */
   .section-title {
@@ -384,10 +380,15 @@ footer .row > div:last-child {
   
   .hero-section h1 {
     font-size: 3.5rem;
+    margin-top: -50px;
   }
   
   .hero-section h2 {
     font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    margin-top: 200px;
   }
   
   .hero-section .lead {
@@ -399,11 +400,6 @@ footer .row > div:last-child {
     margin-bottom: 0;
   }
   
-  /* Decoración Floral Desktop */
-  .floral-decoration {
-    width: 250px;
-    opacity: 0.5;
-  }
   
   /* Títulos Desktop */
   .section-title {
@@ -474,21 +470,21 @@ footer .row > div:last-child {
   /* Hero Section Large Desktop */
   .hero-section h1 {
     font-size: 4rem;
+    margin-top: -60px;
   }
   
   .hero-section h2 {
     font-size: 2.2rem;
   }
   
+  .hero-subtitle {
+    margin-top: 220px;
+  }
+  
   .hero-section .lead {
     font-size: 1.5rem;
   }
   
-  /* Decoración Floral Large Desktop */
-  .floral-decoration {
-    width: 300px;
-    opacity: 0.45;
-  }
   
   /* Títulos Large Desktop */
   .section-title {
@@ -533,21 +529,21 @@ footer .row > div:last-child {
   /* Hero Section Very Large Desktop */
   .hero-section h1 {
     font-size: 4.5rem;
+    margin-top: -70px;
   }
   
   .hero-section h2 {
     font-size: 2.5rem;
   }
   
+  .hero-subtitle {
+    margin-top: 250px;
+  }
+  
   .hero-section .lead {
     font-size: 1.6rem;
   }
   
-  /* Decoración Floral Very Large Desktop */
-  .floral-decoration {
-    width: 350px;
-    opacity: 0.4;
-  }
   
   /* Secciones Very Large Desktop */
   section {
@@ -572,6 +568,10 @@ footer .row > div:last-child {
   
   .hero-section h2 {
     font-size: 1.3rem;
+  }
+  
+  .hero-subtitle {
+    margin-top: 120px;
   }
   
   .hero-section .lead {
@@ -607,7 +607,6 @@ footer .row > div:last-child {
   /* Ocultar elementos innecesarios */
   .navbar,
   .whatsapp-float,
-  .floral-decoration,
   .btn,
   .map-container {
     display: none !important;

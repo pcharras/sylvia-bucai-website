@@ -1,4 +1,4 @@
-# Changelog
+d# Changelog
 
 Todos los cambios notables de este proyecto serán documentados en este archivo.
 
@@ -8,6 +8,18 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ## [Unreleased]
 
 ### Added
+- **🎨 Header transparente**: Header completamente transparente superpuesto sobre hero image
+- **💬 Testimonios reales**: Reemplazados testimonios ficticios con testimonios auténticos de clientes
+- **👥 Nombres específicos**: Testimonios con nombres reales (Matías, Alejandra) para mayor credibilidad
+- **🧹 Diseño minimalista**: Eliminada decoración floral fija para diseño más limpio
+- **🎨 Header ultra elegante**: Refinamiento completo del diseño del header con color púrpura ultra suave
+- **🖼️ Logo transparente**: Implementado logo con fondo transparente para integración visual perfecta
+- **📏 Logo optimizado**: Tamaño aumentado 56% total para mayor prominencia (66px móvil, 110px desktop)
+- **📱 Padding minimalista**: Reducido a 0.05rem en todos los dispositivos para diseño súper compacto
+- **🔤 Contraste perfecto**: Texto del navbar en blanco para legibilidad óptima
+- **🌐 Despliegue producción**: Sitio web desplegado exitosamente en DigitalOcean
+- **⚙️ Configuración servidor**: Nginx con SSL habilitado y permisos correctos
+- **🔧 Git deployment**: Pipeline establecido para actualizaciones automáticas desde GitHub
 - **📄 NUEVA FUNCIONALIDAD**: Sistema completo de subida de documentos legales
 - Nueva sección "Subí tu documento" integrada al sitio web principal
 - Formulario completo con validaciones en tiempo real (nombre, email, teléfono, tipo documento)
@@ -24,15 +36,33 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Manejo robusto de errores con mensajes específicos del backend
 
 ### Deployed
-- **🚀 DESPLIEGUE EN PRODUCCIÓN**: Sitio web desplegado exitosamente en servidor Digital Ocean
-- **🌐 URL activa**: `https://giasynaptia.com/sylviabucai` - Completamente funcional
+- **🚀 DESPLIEGUE EXITOSO**: Sitio web desplegado exitosamente en servidor DigitalOcean (11/09/2025)
+- **🌐 URL activa**: `https://giasynaptia.com/sylviabucai/` - Completamente funcional y accesible
 - **⚙️ Configuración servidor**: Nginx con SSL habilitado y permisos correctos
 - **🔧 Método despliegue**: Git clone directo desde GitHub al servidor
-- **📁 Estructura**: Archivos organizados correctamente en `/var/www/giasynaptia.com/public_html/sylviabucai`
-- **✅ Estado**: Sitio listo para revisión del cliente (Sylvia Bucai)
+- **📁 Estructura**: Archivos organizados correctamente en `/var/www/giasynaptia.com/public_html/sylviabucai/`
+- **✅ Estado**: Sitio listo para revisión del cliente (Sylvia Bucai) - FUNCIONANDO EN PRODUCCIÓN
 - **🧪 Testing pendiente**: APIs n8n, sistema de documentos, WhatsApp integration en entorno de producción
 
 ### Changed
+- **🎨 Header completamente transparente**: Eliminado fondo púrpura, header superpuesto sobre hero image
+- **🖼️ Overlay hero ultra suavizado**: Opacidades reducidas de 0.25/0.15 a 0.15/0.08 para mostrar mejor la foto
+- **📝 Contenido hero optimizado**: Separación aumentada entre título y subtítulo (200px desktop)
+- **🔤 Subtítulo mejorado**: "Abogada y Escribana" sin difuminado (opacity: 1) y en bold
+- **📱 Título reposicionado**: Movido hacia arriba en desktop con margin-top negativo
+- **🧹 Párrafo largo eliminado**: Removido párrafo descriptivo del hero, solo queda lema
+- **💬 Testimonios auténticos**: Reemplazados con testimonios reales de clientes (Matías, Alejandra)
+- **🎯 Diseño minimalista**: Página más limpia sin elementos decorativos fijos
+- Hero actualizado con foto de fondo y overlay más suave para mostrar "Dra Sylvia Ileana Bucai - Abogada", reemplazando además el logo del header por la denominación solicitada por el cliente y usando la imagen `foto-sylvia-1.jpeg`
+- Sección “Sobre mí” actualizada para usar la imagen `foto-sylvia-2.jpeg` como foto de perfil, eliminar placeholder pendiente y aplicar degradado lila → rosado que se desvanece a blanco
+- Degradado lila → rosado extendido a las secciones “Subí tu documento” y “Contacto” para mantener coherencia estética
+- Título principal del hero actualizado con tipografía tipo tarjeta (Georgia/Times) para reflejar la identidad visual “Dra Sylvia Ileana Bucai - Abogada”
+- **🎨 Header refinado completamente**: Color púrpura ultra suave (#D4C5DD) para máxima elegancia visual
+- **📏 Logo amplificado**: Tamaño del logo aumentado 56% total para mayor prominencia
+- **📱 Padding ultra-compacto**: Reducido a 0.05rem en todos los breakpoints para diseño minimalista
+- **🔤 Contraste optimizado**: Texto del navbar cambiado a blanco para mejor legibilidad
+- **🖼️ Logo transparente**: Implementado para integración perfecta con fondo púrpura suave
+- **📱 Responsive consistente**: Mismo diseño elegante en móvil, tablet y desktop
 - Navegación principal actualizada con nueva sección "Subí tu documento"
 - Array de secciones en `main.js` expandido para incluir nueva sección
 - Numeración de secciones actualizada (Testimonios ahora es sección 5, Contacto sección 6)
@@ -41,6 +71,9 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Fixed
 - **🚨 CRÍTICO**: Corregido error de recursión infinita en sistema de documentos (RangeError: Maximum call stack size exceeded)
+- **🎨 Header transparency**: Solucionado problema de header no transparente con múltiples CSS overrides
+- **🔤 Subtítulo legibilidad**: Corregido efecto difuminado del subtítulo "Abogada y Escribana"
+- **🧹 Elementos visuales**: Eliminada decoración floral que aparecía constantemente en pantalla
 - **🔧 Funciones renombradas**: `showDocumentSuccessMessage()` y `showDocumentErrorMessage()` para evitar conflictos de nombres
 - **💡 Fallback mejorado**: Implementación directa de notificaciones elegantes cuando funciones globales no están disponibles
 - **🧹 Stack overflow eliminado**: Error de llamadas recursivas infinitas completamente resuelto
@@ -53,7 +86,13 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **Testing**: `test-documents.html` con 4 niveles de testing (validación, formulario, envío real, debugging)
 - **Responsive**: Estilos específicos para mobile (1.5rem padding) y tablet (2rem padding)
 - **Debugging**: Integrado como `window.CalendarDebug.documents.*` o fallback independiente
-- **🌐 Despliegue**: Digital Ocean + Nginx + Git deployment pipeline establecido
+- **🌐 Despliegue**: DigitalOcean + Nginx + SSL + Git deployment pipeline establecido
+- **🎨 Header técnico**: Completamente transparente, padding 0.05rem, logo 56% más grande, texto blanco
+- **📱 Responsive header**: Logo escalado correctamente (66px móvil, 94px tablet, 110px desktop)
+- **🔧 Servidor**: Ubuntu + Nginx + Let's Encrypt SSL + permisos www-data correctos
+- **🎨 Hero overlay**: Opacidades reducidas a 0.15/0.08 para mayor claridad de la foto
+- **📝 Hero spacing**: margin-top 200px para subtítulo, margin-top negativo para título en desktop
+- **🧹 CSS cleanup**: Eliminados estilos de decoración floral en style.css y responsive.css
 
 ## [1.2.0] - 2025-07-23
 
