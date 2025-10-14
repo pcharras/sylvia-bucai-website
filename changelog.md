@@ -9,9 +9,12 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Added
 - **🎨 Header transparente**: Header completamente transparente superpuesto sobre hero image
+- **🌈 Color primario moderno**: Actualización del color primario a #9B9FDE para un diseño más vibrante y contemporáneo
 - **💬 Testimonios reales**: Reemplazados testimonios ficticios con testimonios auténticos de clientes
 - **👥 Nombres específicos**: Testimonios con nombres reales (Matías, Alejandra) para mayor credibilidad
 - **🧹 Diseño minimalista**: Eliminada decoración floral fija para diseño más limpio
+- **🚀 Actualización servidor**: Despliegue exitoso de refinamientos visuales en producción
+- **🔧 Resolución conflictos**: Solucionados conflictos de permisos en servidor DigitalOcean
 - **🎨 Header ultra elegante**: Refinamiento completo del diseño del header con color púrpura ultra suave
 - **🖼️ Logo transparente**: Implementado logo con fondo transparente para integración visual perfecta
 - **📏 Logo optimizado**: Tamaño aumentado 56% total para mayor prominencia (66px móvil, 110px desktop)
@@ -45,6 +48,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **🧪 Testing pendiente**: APIs n8n, sistema de documentos, WhatsApp integration en entorno de producción
 
 ### Changed
+- **🎨 Paleta lila oficial**: Variables globales actualizadas para reemplazar el bordó por lilas inspirados en la tarjeta de presentación (primario #9B9FDE, texto #3E354B).
+- **🌈 Color primario actualizado**: Cambio de color primario de #6F5DA6 a #9B9FDE para un aspecto más vibrante y moderno
+- **🌈 Fondo tipo tarjeta**: Gradiente lavanda aplicado al body y secciones principales para replicar la estética institucional.
+- **🌸 Arabesco hero**: Removido el arabesco fijo del hero para mantener la imagen principal limpia y enfocada.
+- **🌼 Arabesco lateral**: Nuevo diseño floral 4 con fondo transparente fijo en el margen izquierdo visible durante todo el scroll sin interferir con la vista.
+- **🌺 Escala arabesco**: Tamaño del motivo floral multiplicado por tres en todas las vistas para mayor presencia en el layout.
+- **📱 Arabesco visible en mobile**: Reposicionamiento y escala del diseño floral para que se perciba claramente en pantallas pequeñas.
+- **🪄 Hero sin difuminado**: Eliminado el desenfoque del contenedor principal para mostrar con claridad la fotografía de fondo.
+- **📱 Responsive lila**: Ajustados estados hover/focus y transiciones móviles para utilizar los nuevos tonos sin perder jerarquía ni contraste.
 - **🎨 Header completamente transparente**: Eliminado fondo púrpura, header superpuesto sobre hero image
 - **🖼️ Overlay hero ultra suavizado**: Opacidades reducidas de 0.25/0.15 a 0.15/0.08 para mostrar mejor la foto
 - **📝 Contenido hero optimizado**: Separación aumentada entre título y subtítulo (200px desktop)
@@ -74,6 +86,8 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **🎨 Header transparency**: Solucionado problema de header no transparente con múltiples CSS overrides
 - **🔤 Subtítulo legibilidad**: Corregido efecto difuminado del subtítulo "Abogada y Escribana"
 - **🧹 Elementos visuales**: Eliminada decoración floral que aparecía constantemente en pantalla
+- **🔧 Conflictos Git**: Resueltos conflictos de permisos de archivos en servidor (modo 100644 → 100755)
+- **📱 Cache navegador**: Solucionados problemas de visualización por cache del navegador
 - **🔧 Funciones renombradas**: `showDocumentSuccessMessage()` y `showDocumentErrorMessage()` para evitar conflictos de nombres
 - **💡 Fallback mejorado**: Implementación directa de notificaciones elegantes cuando funciones globales no están disponibles
 - **🧹 Stack overflow eliminado**: Error de llamadas recursivas infinitas completamente resuelto
@@ -93,6 +107,10 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **🎨 Hero overlay**: Opacidades reducidas a 0.15/0.08 para mayor claridad de la foto
 - **📝 Hero spacing**: margin-top 200px para subtítulo, margin-top negativo para título en desktop
 - **🧹 CSS cleanup**: Eliminados estilos de decoración floral en style.css y responsive.css
+- **🚀 Servidor actualizado**: DigitalOcean actualizado con commit f0df367 (29/09/2025)
+- **🔧 Git reset**: Aplicado `git reset --hard HEAD` para limpiar conflictos de permisos
+- **📱 Cache resuelto**: Problemas de visualización solucionados con limpieza de cache
+- **🎨 Color primario técnico**: Variable CSS `--primary-color` actualizada a #9B9FDE, hover buttons a #8B8DD1, estados focus y gradientes actualizados
 
 ## [1.2.0] - 2025-07-23
 

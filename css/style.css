@@ -2,17 +2,17 @@
    VARIABLES Y COLORES PRINCIPALES
    ======================================= */
 :root {
-  --primary-color: #8B1F2B;      /* Rojo oscuro/bordó */
-  --secondary-color: #D4C5DD;    /* Morado ultra suave */
-  --accent-color: #F9F9F9;       /* Blanco neutro */
-  --text-dark: #333333;          /* Texto oscuro */
-  --text-light: #666666;         /* Texto claro */
-  --text-muted: #999999;         /* Texto muy claro */
+  --primary-color: #9B9FDE;      /* Lila principal */
+  --secondary-color: #D4C5DD;    /* Lila suave */
+  --accent-color: #F8F5FF;       /* Blanco violáceo */
+  --text-dark: #3E354B;          /* Gris violáceo profundo */
+  --text-light: #6F5DA6;         /* Lila para detalles */
+  --text-muted: #8E84A9;         /* Lila grisáceo claro */
   --white: #FFFFFF;              /* Blanco puro */
-  --light-gray: #F8F9FA;         /* Gris claro */
+  --light-gray: #ECE6F5;         /* Gris lavanda */
   --success-color: #25D366;      /* WhatsApp verde */
-  --shadow-light: 0 2px 15px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 25px rgba(0, 0, 0, 0.15);
+  --shadow-light: 0 2px 15px rgba(72, 60, 116, 0.12);
+  --shadow-medium: 0 4px 25px rgba(72, 60, 116, 0.16);
   --border-radius: 8px;
   --transition: all 0.3s ease;
 }
@@ -31,7 +31,23 @@ body {
   font-size: 16px;
   line-height: 1.6;
   color: var(--text-dark);
+  background: linear-gradient(135deg, #E7E1F3 0%, #C8C5F0 50%, #E5EEFF 100%);
+  position: relative;
   overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: min(72vw, 780px);
+  height: 100vh;
+  background: url('../assets/diseño floral 4-transparent.png') no-repeat left center / contain;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease;
 }
 
 /* =======================================
@@ -94,7 +110,7 @@ body nav.navbar {
 }
 
 .navbar.scrolled {
-  background: rgba(212, 197, 221, 0.95) !important;
+  background: rgba(231, 225, 243, 0.95) !important;
   box-shadow: var(--shadow-light);
 }
 
@@ -125,7 +141,7 @@ body nav.navbar {
 }
 
 .navbar-nav .nav-link:hover {
-  color: var(--accent-color) !important;
+  color: var(--secondary-color) !important;
 }
 
 .navbar-nav .nav-link::after {
@@ -144,6 +160,19 @@ body nav.navbar {
   width: 80%;
 }
 
+.navbar.scrolled .nav-link {
+  color: var(--text-dark) !important;
+  text-shadow: none;
+}
+
+.navbar.scrolled .nav-link:hover {
+  color: var(--primary-color) !important;
+}
+
+.navbar.scrolled .logo-text {
+  color: var(--text-dark);
+  text-shadow: none;
+}
 
 /* =======================================
    SECCIÓN HERO
@@ -155,9 +184,10 @@ body nav.navbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(139, 31, 43, 0.15), rgba(32, 14, 23, 0.08)),
+  background: linear-gradient(180deg, rgba(155, 159, 222, 0.35), rgba(176, 160, 210, 0.15)),
     url('../assets/foto-sylvia-1.jpeg') center/cover no-repeat;
   color: var(--white);
+  overflow: hidden;
 }
 
 .hero-section::after {
@@ -179,6 +209,12 @@ body nav.navbar {
 .hero-content {
   max-width: 720px;
   margin: 0 auto;
+  background: rgba(62, 53, 75, 0.18);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-radius: var(--border-radius);
+  padding: 2.5rem;
+  box-shadow: 0 18px 45px rgba(46, 38, 64, 0.18);
 }
 
 .hero-section h1,
@@ -240,9 +276,9 @@ body nav.navbar {
 #documentos,
 #contacto {
   background: linear-gradient(180deg,
-      rgba(212, 197, 221, 0.6) 0%,
-      rgba(244, 204, 216, 0.36) 55%,
-      #ffffff 100%) !important;
+      rgba(231, 225, 243, 0.85) 0%,
+      rgba(200, 197, 240, 0.55) 50%,
+      rgba(229, 238, 255, 0.75) 100%) !important;
 }
 
 #sobre-mi .container,
@@ -266,7 +302,7 @@ body nav.navbar {
   }
 
   .hero-content {
-    padding: 0 0.5rem;
+    padding: 1.75rem 1.25rem;
   }
 }
 
@@ -306,7 +342,7 @@ body nav.navbar {
 }
 
 .btn-primary:hover {
-  background: #6d1821;
+  background: #8B8DD1;
   transform: translateY(-2px);
   box-shadow: var(--shadow-medium);
   color: var(--white);
@@ -381,7 +417,7 @@ section {
 
 .form-control:focus, .form-select:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.2rem rgba(139, 31, 43, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(155, 159, 222, 0.25);
 }
 
 .form-label {
@@ -520,7 +556,7 @@ section {
 /* File Upload Wrapper */
 .file-upload-wrapper {
   position: relative;
-  border: 2px dashed #dee2e6;
+  border: 2px dashed rgba(155, 159, 222, 0.25);
   border-radius: var(--border-radius);
   padding: 2rem;
   text-align: center;
@@ -530,12 +566,12 @@ section {
 
 .file-upload-wrapper:hover {
   border-color: var(--primary-color);
-  background: rgba(139, 31, 43, 0.05);
+  background: rgba(155, 159, 222, 0.08);
 }
 
 .file-upload-wrapper.dragover {
   border-color: var(--primary-color);
-  background: rgba(139, 31, 43, 0.1);
+  background: rgba(155, 159, 222, 0.12);
   transform: scale(1.02);
 }
 
@@ -562,8 +598,8 @@ section {
 
 /* File Selected State */
 .file-selected .alert {
-  border: 1px solid rgba(139, 31, 43, 0.2);
-  background: rgba(139, 31, 43, 0.05);
+  border: 1px solid rgba(155, 159, 222, 0.25);
+  background: rgba(155, 159, 222, 0.08);
 }
 
 .file-selected .file-name {
